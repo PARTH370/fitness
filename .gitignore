@@ -1,0 +1,6 @@
+env/
+test/
+venv/
+.env
+/Project/Server/static
+Project/Server/static
