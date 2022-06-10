@@ -1,1 +1,1 @@
-web: uvicorn Project.Server.app:app --workers 4
+web: uvicorn Project.Server.app:app --workers 4 --reload --port 8000
