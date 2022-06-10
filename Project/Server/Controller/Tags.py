@@ -1,4 +1,4 @@
-from Server.Database import *
+from Database import *
 
 def Tags_helper(data)-> dict:
     return {
