@@ -22,9 +22,9 @@ from fastapi.middleware.cors import CORSMiddleware
 app = FastAPI()
 
 
-app.mount("/Static", StaticFiles(directory="Server"), name="Static")
+# app.mount("/Static", StaticFiles(directory="Server"), name="Static")
 
-IMAGEDIR=os.getcwd()
+# IMAGEDIR=os.getcwd()
 
 origins = ["*"]
 
@@ -51,11 +51,11 @@ app.add_middleware(
 # app.include_router(Razorpay, tags=["Razorpay"], prefix="/Payments")
 
 
-@app.get("/images", tags=["IMAGE"])
-def get_images(id):
-    random_index =id
-    path=f"{IMAGEDIR}/{random_index}"
-    return FileResponse(path)
+# @app.get("/images", tags=["IMAGE"])
+# def get_images(id):
+#     random_index =id
+#     path=f"{IMAGEDIR}/{random_index}"
+#     return FileResponse(path)
 
 @app.get("/", tags=["APP"])
 def read_root():
