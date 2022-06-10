@@ -1,9 +1,9 @@
 import base64
 import uuid
 from fastapi import APIRouter, Body
-from Server.Utils.Image_Handler import Image_Converter
-from Server.Controller.Exercise import Add_Exercise,Delete_Old_Image,Check_Exercises, delete_exercise_data, retrieve_all_Exercises, retrieve_exercise_by_id, update_exercise
-from Server.Models.Exercise import Exercise
+from Project.Server.Utils.Image_Handler import Image_Converter
+from Project.Server.Controller.Exercise import Add_Exercise,Delete_Old_Image,Check_Exercises, delete_exercise_data, retrieve_all_Exercises, retrieve_exercise_by_id, update_exercise
+from Project.Server.Models.Exercise import Exercise
 from fastapi.encoders import jsonable_encoder
 
 router = APIRouter()

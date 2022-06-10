@@ -1,9 +1,9 @@
 from bson import ObjectId
 from fastapi import APIRouter, Body
-from Server.Database import Post_collection
-from Server.Utils.Image_Handler import Image_Converter
-from Server.Controller.Post import Add_Post,Delete_Old_Image,Check_Post, retrieve_all_Post, retrieve_Post_by_id, delete_Post_data, update_Post
-from Server.Models.Post import Posts
+from Project.Server.Database import Post_collection
+from Project.Server.Utils.Image_Handler import Image_Converter
+from Project.Server.Controller.Post import Add_Post,Delete_Old_Image,Check_Post, retrieve_all_Post, retrieve_Post_by_id, delete_Post_data, update_Post
+from Project.Server.Models.Post import Posts
 from fastapi.encoders import jsonable_encoder
 
 router = APIRouter()

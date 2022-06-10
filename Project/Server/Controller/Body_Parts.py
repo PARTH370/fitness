@@ -1,4 +1,4 @@
-from Server.Database import *
+from Project.Server.Database import *
 import os
 IMAGEDIR=os.getcwd()
 

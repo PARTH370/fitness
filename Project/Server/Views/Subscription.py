@@ -1,9 +1,9 @@
 from sys import flags
 from fastapi import APIRouter, Body
-from Server.Controller.User import Image_Converter
-from Server.Controller.Subscription import Delete_Old_Image,Check_Subscriptions, Add_Subscriptions, retrieve_all_Subscriptions, retrieve_Subscriptions_by_id, delete_Subscriptions_data, update_Subscriptions
-from Server.Database import Subscription_collection
-from Server.Models.Subscription import Subscriptions
+from Project.Server.Controller.User import Image_Converter
+from Project.Server.Controller.Subscription import Delete_Old_Image,Check_Subscriptions, Add_Subscriptions, retrieve_all_Subscriptions, retrieve_Subscriptions_by_id, delete_Subscriptions_data, update_Subscriptions
+from Project.Server.Database import Subscription_collection
+from Project.Server.Models.Subscription import Subscriptions
 from bson import ObjectId
 from fastapi.encoders import jsonable_encoder
 

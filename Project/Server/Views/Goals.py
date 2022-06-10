@@ -1,9 +1,9 @@
 import base64
 import uuid
 from fastapi import APIRouter, Body
-from Server.Utils.Image_Handler import Image_Converter
-from Server.Controller.Goals import Add_Goal,Delete_Old_Image,Check_Goal,delete_Goal_data, retrieve_all_Goals, retrieve_Goal_by_id, update_Goal
-from Server.Models.Goal import Goals
+from Project.Server.Utils.Image_Handler import Image_Converter
+from Project.Server.Controller.Goals import Add_Goal,Delete_Old_Image,Check_Goal,delete_Goal_data, retrieve_all_Goals, retrieve_Goal_by_id, update_Goal
+from Project.Server.Models.Goal import Goals
 from fastapi.encoders import jsonable_encoder
 
 router = APIRouter()

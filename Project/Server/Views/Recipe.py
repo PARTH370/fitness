@@ -1,8 +1,8 @@
 from fastapi import APIRouter, Body
-from Server.Database import Recipes_collection
-from Server.Utils.Image_Handler import Image_Converter
-from Server.Controller.Recipe import Add_Recipe,Delete_Old_Image,Check_Recipe, delete_Recipes_data, retrieve_all_Recipess, retrieve_Recipes_by_id, update_Recipes
-from Server.Models.Recipe import Recipe
+from Project.Server.Database import Recipes_collection
+from Project.Server.Utils.Image_Handler import Image_Converter
+from Project.Server.Controller.Recipe import Add_Recipe,Delete_Old_Image,Check_Recipe, delete_Recipes_data, retrieve_all_Recipess, retrieve_Recipes_by_id, update_Recipes
+from Project.Server.Models.Recipe import Recipe
 from bson import ObjectId
 from fastapi.encoders import jsonable_encoder
 

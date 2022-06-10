@@ -1,7 +1,7 @@
 from fastapi import APIRouter, Body
 from fastapi.encoders import jsonable_encoder
-from Server.Database import *
-from Server.Models.Payment import Payment_id, Get_Payment_Status
+from Project.Server.Database import *
+from Project.Server.Models.Payment import Payment_id, Get_Payment_Status
 import razorpay
 from datetime import datetime, timedelta
 

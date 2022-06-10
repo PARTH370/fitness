@@ -2,13 +2,13 @@ from datetime import timedelta
 from sys import flags
 from bson import ObjectId
 from fastapi import APIRouter, Body
-from Server.Utils.Image_Handler import Image_Converter
-from Server.Utils.Auth_Bearer import *
-from Server.Database import User_collection
-from Server.Controller.User import update_user
-from Server.Controller.User import Add_User_Measures,retrieve_user_measurment,Add_User_Details,Delete_Old_Image,Check_Email_Mobile ,retrieve_all_Users, delete_user_data, retrieve_user_by_id
+from Project.Server.Utils.Image_Handler import Image_Converter
+from Project.Server.Utils.Auth_Bearer import *
+from Project.Server.Database import User_collection
+from Project.Server.Controller.User import update_user
+from Project.Server.Controller.User import Add_User_Measures,retrieve_user_measurment,Add_User_Details,Delete_Old_Image,Check_Email_Mobile ,retrieve_all_Users, delete_user_data, retrieve_user_by_id
 from fastapi.encoders import jsonable_encoder
-from Server.Models.User import User_Details,Add_Measurment, Login, ChangePassword
+from Project.Server.Models.User import User_Details,Add_Measurment, Login, ChangePassword
 
 router = APIRouter()
 

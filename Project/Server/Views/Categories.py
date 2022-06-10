@@ -1,9 +1,9 @@
 import base64
 import uuid
 from fastapi import APIRouter, Body
-from Server.Utils.Image_Handler import Image_Converter
-from Server.Controller.Categories import Add_Category,Delete_Old_Image,Check_Categories, delete_Category_data, retrieve_all_Categories, retrieve_Category_by_id, update_Category
-from Server.Models.Categories import Categories
+from Project.Server.Utils.Image_Handler import Image_Converter
+from Project.Server.Controller.Categories import Add_Category,Delete_Old_Image,Check_Categories, delete_Category_data, retrieve_all_Categories, retrieve_Category_by_id, update_Category
+from Project.Server.Models.Categories import Categories
 from fastapi.encoders import jsonable_encoder
 
 router = APIRouter()

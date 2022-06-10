@@ -1,9 +1,9 @@
 import base64
 import uuid
 from fastapi import APIRouter, Body
-from Server.Utils.Image_Handler import Image_Converter
-from Server.Controller.Equipments import Add_Equipment,Delete_Old_Image,Check_Eqipment, delete_Equipment_data, retrieve_all_Equipments, retrieve_Equipment_by_id, update_Equipment
-from Server.Models.Equipments import Equipments
+from Project.Server.Utils.Image_Handler import Image_Converter
+from Project.Server.Controller.Equipments import Add_Equipment,Delete_Old_Image,Check_Eqipment, delete_Equipment_data, retrieve_all_Equipments, retrieve_Equipment_by_id, update_Equipment
+from Project.Server.Models.Equipments import Equipments
 from fastapi.encoders import jsonable_encoder
 
 router = APIRouter()

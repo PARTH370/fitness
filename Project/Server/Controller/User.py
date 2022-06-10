@@ -1,6 +1,6 @@
 import base64
 import uuid
-from Server.Utils.Auth_Bearer import get_password_hash
+from Project.Server.Utils.Auth_Bearer import get_password_hash
 
 from Server.Database import *
 import os
