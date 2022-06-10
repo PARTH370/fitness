@@ -2,7 +2,7 @@ import os
 from fastapi import FastAPI
 from fastapi.responses import FileResponse
 from fastapi.staticfiles import StaticFiles
-from Server.Views.Tags import router as Tag
+# from Server.Views.Tags import router as Tag
 from Server.Views.Post import router as Post
 from Server.Views.User import router as User
 from Server.Views.Goals import router as Goals
@@ -43,7 +43,7 @@ app.include_router(Bodyparts, tags=["Bodyparts"], prefix="/Bodyparts")
 app.include_router(Recipe, tags=["Recipe"], prefix="/Recipe")
 app.include_router(Equipments, tags=["Equipments"], prefix="/Equipments")
 app.include_router(Category, tags=["Categories"], prefix="/Categories")
-app.include_router(Tag, tags=["Tags"], prefix="/Tags")
+# app.include_router(Tag, tags=["Tags"], prefix="/Tags")
 app.include_router(Levels, tags=["Levels"], prefix="/Levels")
 app.include_router(Goals, tags=["Goals"], prefix="/Goals")
 app.include_router(Post, tags=["Post"], prefix="/Post")
