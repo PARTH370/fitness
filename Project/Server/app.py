@@ -3,18 +3,18 @@ from fastapi import FastAPI
 from fastapi.responses import FileResponse
 from fastapi.staticfiles import StaticFiles
 # from Server.Views.Tags import router as Tag
-from Server.Views.Post import router as Post
-from Server.Views.User import router as User
-from Server.Views.Goals import router as Goals
-from Server.Views.Recipe import router as Recipe
-from Server.Views.Levels import router as Levels
-from Server.Views.Workouts import router as Workout
-from Server.Views.Exercise import router as Exercise
-from Server.Views.Categories import router as Category
-from Server.Views.Body_parts import router as Bodyparts
-from Server.Views.Equipments import router as Equipments
-from Server.Views.Subscription import router as Subscription
-from Server.Utils.Payment import router as Razorpay
+from Views.Post import router as Post
+from Views.User import router as User
+from Views.Goals import router as Goals
+from Views.Recipe import router as Recipe
+from Views.Levels import router as Levels
+from Views.Workouts import router as Workout
+from Views.Exercise import router as Exercise
+from Views.Categories import router as Category
+from Views.Body_parts import router as Bodyparts
+from Views.Equipments import router as Equipments
+from Views.Subscription import router as Subscription
+from Utils.Payment import router as Razorpay
 
 from fastapi.middleware.cors import CORSMiddleware
 
