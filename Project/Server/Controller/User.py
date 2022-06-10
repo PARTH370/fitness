@@ -2,7 +2,7 @@ import base64
 import uuid
 from Project.Server.Utils.Auth_Bearer import get_password_hash
 
-from Server.Database import *
+from Project.Server.Database import *
 import os
 IMAGEDIR=os.getcwd()
 def User_helper(data) -> dict:
