@@ -14,7 +14,7 @@ from .Views.Categories import router as Category
 from .Views.Body_parts import router as Bodyparts
 from .Views.Equipments import router as Equipments
 from .Views.Subscription import router as Subscription
-from Utils.Payment import router as Razorpay
+from .Utils.Payment import router as Razorpay
 
 from fastapi.middleware.cors import CORSMiddleware
 
