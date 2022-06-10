@@ -1,5 +1,5 @@
 from fastapi import APIRouter, Body
-from Tags import Add_Tag, delete_Tag_data, retrieve_all_Tags, retrieve_Tag_by_id, update_Tag
+from Project.Server.Controller.Tags import Add_Tag, delete_Tag_data, retrieve_all_Tags, retrieve_Tag_by_id, update_Tag
 from Models.Tags import Tags
 from fastapi.encoders import jsonable_encoder
 
