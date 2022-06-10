@@ -2,7 +2,7 @@ import os
 from fastapi import FastAPI
 from fastapi.responses import FileResponse
 from fastapi.staticfiles import StaticFiles
-from Server.Views.Tags import router as Tag
+from .Views.Tags import router as Tag
 from Views.Post import router as Post
 from Views.User import router as User
 from Views.Goals import router as Goals
@@ -13,7 +13,7 @@ from Views.Exercise import router as Exercise
 from Views.Categories import router as Category
 from Views.Body_parts import router as Bodyparts
 from Views.Equipments import router as Equipments
-from Views.Subscription import router as Subscription
+from .Views.Subscription import router as Subscription
 from Utils.Payment import router as Razorpay
 
 from fastapi.middleware.cors import CORSMiddleware
