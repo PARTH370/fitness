@@ -7,7 +7,9 @@ async def Image_Converter(Hax_Value):
     decodeit = open(f"Project/Server/Static/{random_name}.jpg", 'wb')
     decodeit.write(base64.b64decode(Hax_Value))
     decodeit.close()
-    img_path = "http://localhost:8000/images?id=Server%2FStatic%2F" + \
+    # mg_path = "http://localhost:8000/images?id=Server%2FStatic%2F" + \
+    #     str(random_name)+".jpg"
+    img_path = "https://myfiti.herokuapp.com/images?id=Server%2FStatic%2F" + \
         str(random_name)+".jpg"
     return img_path
 
