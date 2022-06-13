@@ -25,7 +25,7 @@ app = FastAPI()
 app.mount("/Static", StaticFiles(directory="Project/Server"), name="Static")
 
 IMAGEDIR=os.getcwd()
-print(IMAGEDIR,"55555555555555555555555555555555555555555555555555555555555555555555555555555555555555555555555555555")
+print(IMAGEDIR)
 origins = ["*"]
 
 app.add_middleware(
@@ -55,7 +55,9 @@ app.include_router(Razorpay, tags=["Razorpay"], prefix="/Payments")
 @app.get("/images", tags=["IMAGE"])
 def get_images(id):
     random_index =id
-    path=f'"Project"/{random_index}'
+    path=f"{IMAGEDIR}/{random_index}"
+
+    print(path)
     return FileResponse(path)
 
 @app.get("/", tags=["APP"])
