@@ -125,6 +125,17 @@ async def update_user(id: str, data: dict,flags:int):
             return True
         return False
 
+async def Update_Measurments(id: str, data: dict):
+    if len(data) < 1:
+        return False
+    user = await Measurments_collection.find_one({"User_id": str(id)})
+    if user:
+        updated_user = await Measurments_collection.update_one(
+            {"User_id": str(id)}, {"$set": data}
+        )
+        if updated_user:
+            return True
+        return False
 
 
 async def Image_Converter(Hax_Value):

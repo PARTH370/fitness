@@ -6,7 +6,7 @@ from Project.Server.Utils.Image_Handler import Image_Converter
 from Project.Server.Utils.Auth_Bearer import *
 from Project.Server.Database import User_collection
 from Project.Server.Controller.User import update_user
-from Project.Server.Controller.User import Add_User_Measures,retrieve_user_measurment,Add_User_Details,Delete_Old_Image,Check_Email_Mobile ,retrieve_all_Users, delete_user_data, retrieve_user_by_id
+from Project.Server.Controller.User import Add_User_Measures,Update_Measurments,retrieve_user_measurment,Add_User_Details,Delete_Old_Image,Check_Email_Mobile ,retrieve_all_Users, delete_user_data, retrieve_user_by_id
 from fastapi.encoders import jsonable_encoder
 from Project.Server.Models.User import User_Details,Add_Measurment, Login, ChangePassword
 
@@ -134,3 +134,14 @@ async def Get_Measurment(id: str):
     if data:
         return {"code": 200, "Data": data}
     return {"Msg": "Id may not exist"}
+
+@router.put("/Update_Measurment/{id}", response_description="Update Measurment")
+async def Update_Measurment(id: str, Measurment: Add_Measurment = Body(...)):
+    req = {k: v for k, v in req.dict().items() if v is not None}
+    updated_user = await Update_Measurments(id, req)
+    if updated_user:
+        return {"code": 200, "Data": "Data updated Successfully"}
+
+    return {
+        "code": 404, "Data": "Something Went Wrong"
+    }
