@@ -19,6 +19,7 @@ from .Utils.Payment import router as Razorpay
 from fastapi.middleware.cors import CORSMiddleware
 
 
+
 app = FastAPI()
 
 app.mount("/Static", StaticFiles(directory="Project/Server"), name="Static")
