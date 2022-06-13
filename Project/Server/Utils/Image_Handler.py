@@ -11,5 +11,6 @@ async def Image_Converter(Hax_Value):
     #     str(random_name)+".jpg"
     img_path = "https://myfiti.herokuapp.com/images?id=Server%2FStatic%2F" + \
         str(random_name)+".jpg"
+    print(random_name)
     return img_path
 
