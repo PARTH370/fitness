@@ -25,7 +25,7 @@ app = FastAPI()
 app.mount("/Static", StaticFiles(directory="Project/Server"), name="Static")
 
 IMAGEDIR=os.getcwd()
-
+print(IMAGEDIR,"55555555555555555555555555555555555555555555555555555555555555555555555555555555555555555555555555555")
 origins = ["*"]
 
 app.add_middleware(
