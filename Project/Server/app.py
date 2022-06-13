@@ -55,7 +55,7 @@ app.include_router(Razorpay, tags=["Razorpay"], prefix="/Payments")
 @app.get("/images", tags=["IMAGE"])
 def get_images(id):
     random_index =id
-    path=f"{IMAGEDIR}/{random_index}"
+    path=f'"Project"/{random_index}'
     return FileResponse(path)
 
 @app.get("/", tags=["APP"])
