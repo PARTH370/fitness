@@ -70,7 +70,7 @@ async def update_Post_data(id: str, req: Posts = Body(...)):
 async def Change_Post_Status(id: str):
     data = await Post_collection.find_one({"_id":ObjectId(id)})
     if data:
-        if data["Status"]=="Active":
+        if data["STATUS"]=="Active":
             await Post_collection.update_one({"_id":ObjectId(id)},{"$set":{"Status":"Inactive"}})
         else:
             await Post_collection.update_one({"_id":ObjectId(id)},{"$set":{"Status":"Active"}})

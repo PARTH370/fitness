@@ -61,6 +61,7 @@ def get_images(id):
     print(path)
     return FileResponse(path)
 
+
 @app.get("/", tags=["APP"])
 def read_root():
     return {"message": dir_path}
