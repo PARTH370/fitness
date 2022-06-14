@@ -25,4 +25,4 @@ EXPOSE 8000
 # During debugging, this entry point will be overridden. For more information, please refer to https://aka.ms/vscode-docker-python-debug
 # CMD ["gunicorn", "--bind", "0.0.0.0:8000", "-k", "uvicorn.workers.UvicornWorker", "MY_FITI\Project\Server\app:app"]
 # CMD ["uvicorn", "MY_FITI\Project\Server\app:app", "--host", "0.0.0.0","--port", "8000", "--reload"]
-CMD ["python", "MY_FITI\Project\main.py"]
+CMD ["MY_FITI\Project\main.py"]
