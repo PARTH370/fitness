@@ -2,7 +2,7 @@ services:
   fastapi:
     build: .
     ports:
-      - 8080:8080
+      - 8000:8000
     environment:
       - DB_HOST=${HOST}
   mongodb:
