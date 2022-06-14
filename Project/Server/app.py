@@ -19,14 +19,15 @@ from .Utils.Payment import router as Razorpay
 from fastapi.middleware.cors import CORSMiddleware
 
 
-
+dir_path = os.path.dirname(os.path.realpath(__file__))
 app = FastAPI()
-
+print(dir_path,"_"*50)
 app.mount("/Static", StaticFiles(directory="Project/Server"), name="Static")
 
 IMAGEDIR=os.getcwd()
 print(IMAGEDIR)
 origins = ["*"]
+
 
 app.add_middleware(
     CORSMiddleware,
