@@ -39,4 +39,4 @@ EXPOSE 8080
 
 # COPY ./app /app
 
-CMD ["python3", "Project/main.py"]
+CMD ["python3", "Project//main.py"]
