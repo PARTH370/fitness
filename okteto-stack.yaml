@@ -1,7 +1,7 @@
 services:
   fastapi:
     public: true
-    image: DOCKERHUBUSERNAME/fastapi-crud:latest
+    image: 9909804338/fastapi-crud:latest
     build: .
     replicas: 1
     ports:
