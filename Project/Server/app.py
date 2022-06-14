@@ -21,7 +21,7 @@ from fastapi.middleware.cors import CORSMiddleware
 app = FastAPI()
 
 
-app.mount("/Static", StaticFiles(directory="Server"), name="Static")
+app.mount("/Static", StaticFiles(directory="Project/Server"), name="Static")
 
 IMAGEDIR=os.getcwd()
 print(IMAGEDIR)
