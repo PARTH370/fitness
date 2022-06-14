@@ -63,4 +63,4 @@ def get_images(id):
 
 @app.get("/", tags=["APP"])
 def read_root():
-    return {"message": "Welcome to this fantastic app!"}
+    return {"message": dir_path}
