@@ -1,0 +1,13 @@
+services:
+  fastapi:
+    build: .
+    ports:
+      - 8080:8080
+    environment:
+      - DB_HOST=${HOST}
+  mongodb:
+    image: bitnami/mongodb:latest
+    ports:
+      - 27017
+    volumes:
+      - /bitnami/mongodb
