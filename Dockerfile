@@ -30,7 +30,7 @@
 
 FROM python:3.8
 
-WORKDIR /app
+WORKDIR /Project
 
 ADD . .
 RUN pip install -r requirements.txt
