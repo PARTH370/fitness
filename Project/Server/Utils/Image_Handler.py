@@ -15,9 +15,11 @@ import requests
 #     # print(random_name)
 #     return img_path
 
+
+
 async def Image_Converter(Hax_Value):
     url="https://evenmore.co.in/API/image"
-    correct_payload = {"base64Image": Hax_Value, "imageName": "Sign"}
+    correct_payload = {"base64Image": Hax_Value, "imageName": str(uuid.uuid4())}
     json_object = json.dumps(correct_payload, indent = 4) 
     data = requests.post(url, data=json_object,headers={'Content-Type':'application/json'})
     try:
