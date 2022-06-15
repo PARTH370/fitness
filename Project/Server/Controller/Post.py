@@ -1,4 +1,4 @@
-from Server.Database import *
+from Project.Server.Database import *
 import os
 IMAGEDIR=os.getcwd()
 
@@ -64,7 +64,7 @@ async def retrieve_Post_by_id(Post_id: str) -> dict:
 async def delete_Post_data(id: str):
     data = await Post_collection.find_one({"_id": ObjectId(id)})
     if data:
-        Img_delete = await Delete_Old_Image(id)
+        # Img_delete = await Delete_Old_Image(id)
         await Post_collection.delete_one({"_id": ObjectId(id)})
         return "Data Successfully deleted"
     return "Data Not Found"

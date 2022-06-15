@@ -1,9 +1,9 @@
 import base64
 import uuid
 from fastapi import APIRouter, Body
-from Server.Utils.Image_Handler import Image_Converter
-from Server.Controller.Equipments import Add_Equipment,Delete_Old_Image,Check_Eqipment, delete_Equipment_data, retrieve_all_Equipments, retrieve_Equipment_by_id, update_Equipment
-from Server.Models.Equipments import Equipments
+from Project.Server.Utils.Image_Handler import Image_Converter
+from Project.Server.Controller.Equipments import Add_Equipment,Delete_Old_Image,Check_Eqipment, delete_Equipment_data, retrieve_all_Equipments, retrieve_Equipment_by_id, update_Equipment
+from Project.Server.Models.Equipments import Equipments
 from fastapi.encoders import jsonable_encoder
 
 router = APIRouter()
@@ -53,7 +53,7 @@ async def update_Equipment_data(id: str, req: Equipments = Body(...)):
     req = {k: v for k, v in req.dict().items() if v is not None}
     flags=0
     if len(req["IMAGE"])!=0:
-        Del_img= await Delete_Old_Image(id)
+        # Del_img= await Delete_Old_Image(id)
         Image_Path=await Image_Converter(req["IMAGE"])
         req["IMAGE"]=Image_Path
         flags=1

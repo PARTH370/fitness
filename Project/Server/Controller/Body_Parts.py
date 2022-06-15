@@ -1,4 +1,4 @@
-from Server.Database import *
+from Project.Server.Database import *
 import os
 IMAGEDIR=os.getcwd()
 
@@ -52,7 +52,7 @@ async def retrieve_bodypart_by_id(bodypart_id: str) -> dict:
 async def delete_bodypart_data(id: str):
     data = await Bodyparts_collection.find_one({"_id": ObjectId(id)})
     if data:
-        Img_delete = await Delete_Old_Image(id)
+        # Img_delete = await Delete_Old_Image(id)
         await Bodyparts_collection.delete_one({"_id": ObjectId(id)})
         return "Data Successfully deleted"
     return "Data Not Found"

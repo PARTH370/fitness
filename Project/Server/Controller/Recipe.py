@@ -1,4 +1,4 @@
-from Server.Database import *
+from Project.Server.Database import *
 import os
 IMAGEDIR=os.getcwd()
 
@@ -79,7 +79,7 @@ async def retrieve_Recipes_by_id(Recipes_id: str) -> dict:
 async def delete_Recipes_data(id: str):
     data = await Recipes_collection.find_one({"_id": ObjectId(id)})
     if data:
-        Img_delte = await Delete_Old_Image(id)
+        # Img_delte = await Delete_Old_Image(id)
         await Recipes_collection.delete_one({"_id": ObjectId(id)})
         return "Data Successfully deleted"
     return "Data Not Found"

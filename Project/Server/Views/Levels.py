@@ -1,9 +1,9 @@
 import base64
 import uuid
 from fastapi import APIRouter, Body
-from Server.Utils.Image_Handler import Image_Converter
-from Server.Controller.Levels import Add_Level,Delete_Old_Image,Check_Level, delete_Level_data, retrieve_all_Levels, retrieve_Level_by_id, update_Level
-from Server.Models.Levels import Levels
+from Project.Server.Utils.Image_Handler import Image_Converter
+from Project.Server.Controller.Levels import Add_Level,Delete_Old_Image,Check_Level, delete_Level_data, retrieve_all_Levels, retrieve_Level_by_id, update_Level
+from Project.Server.Models.Levels import Levels
 from fastapi.encoders import jsonable_encoder
 
 router = APIRouter()
@@ -53,7 +53,7 @@ async def update_Level_data(id: str, req: Levels = Body(...)):
     req = {k: v for k, v in req.dict().items() if v is not None}
     flags=0
     if len(req["IMAGE"])!=0:
-        Del_img= await Delete_Old_Image(id)
+        # Del_img= await Delete_Old_Image(id)
         Image_Path=await Image_Converter(req["IMAGE"])
         req["IMAGE"]=Image_Path
         flags=1

@@ -1,4 +1,4 @@
-from Server.Database import *
+from Project.Server.Database import *
 import os
 IMAGEDIR=os.getcwd()
 
@@ -50,7 +50,7 @@ async def retrieve_Level_by_id(Level_id: str) -> dict:
 async def delete_Level_data(id: str):
     data = await Levels_collection.find_one({"_id": ObjectId(id)})
     if data:
-        Img_delete = await Delete_Old_Image(id)
+        # Img_delete = await Delete_Old_Image(id)
         await Levels_collection.delete_one({"_id": ObjectId(id)})
         return "Data Successfully deleted"
     return "Data Not Found"

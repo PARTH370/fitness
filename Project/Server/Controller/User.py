@@ -1,8 +1,8 @@
 import base64
 import uuid
-from Server.Utils.Auth_Bearer import get_password_hash
+from Project.Server.Utils.Auth_Bearer import get_password_hash
 
-from Server.Database import *
+from Project.Server.Database import *
 import os
 IMAGEDIR=os.getcwd()
 def User_helper(data) -> dict:
@@ -105,7 +105,7 @@ async def retrieve_user_by_id(User_id: str) -> dict:
 async def delete_user_data(id: str):
     data = await User_collection.find_one({"_id": ObjectId(id)})
     if data:
-        Img_delete = await Delete_Old_Image(id)
+        # Img_delete = await Delete_Old_Image(id)
         await User_collection.delete_one({"_id": ObjectId(id)})
         return "User Successfully deleted"
     return "User Not Found"
@@ -125,13 +125,24 @@ async def update_user(id: str, data: dict,flags:int):
             return True
         return False
 
+async def Update_Measurments(id: str, data: dict):
+    if len(data) < 1:
+        return False
+    user = await Measurments_collection.find_one({"User_id": str(id)})
+    if user:
+        updated_user = await Measurments_collection.update_one(
+            {"User_id": str(id)}, {"$set": data}
+        )
+        if updated_user:
+            return True
+        return False
 
 
-async def Image_Converter(Hax_Value):
-    random_name = str(uuid.uuid4())
-    decodeit = open(f"Server/static/{random_name}.jpg", 'wb')
-    decodeit.write(base64.b64decode(Hax_Value))
-    decodeit.close()
-    img_path = "http://localhost:8000/images?id=Server%2Fstatic%2F" + \
-        str(random_name)+".jpg"
-    return img_path
+# async def Image_Converter(Hax_Value):
+#     random_name = str(uuid.uuid4())
+#     decodeit = open(f"Server/static/{random_name}.jpg", 'wb')
+#     decodeit.write(base64.b64decode(Hax_Value))
+#     decodeit.close()
+#     img_path = "http://localhost:8000/images?id=Server%2Fstatic%2F" + \
+#         str(random_name)+".jpg"
+#     return img_path

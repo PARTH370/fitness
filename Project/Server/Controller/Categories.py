@@ -1,4 +1,4 @@
-from Server.Database import *
+from Project.Server.Database import *
 import os
 IMAGEDIR=os.getcwd()
 def Categories_helper(data)-> dict:
@@ -46,7 +46,7 @@ async def retrieve_Category_by_id(Category_id:str) ->dict:
 async def delete_Category_data(id: str):
     data = await Categories_collection.find_one({"_id":ObjectId(id)})
     if data:
-        Img_delete = await Delete_Old_Image(id)
+        # Img_delete = await Delete_Old_Image(id)
         await Categories_collection.delete_one({"_id":ObjectId(id)})
         return "Data Successfully deleted"
     return "Data Not Found"

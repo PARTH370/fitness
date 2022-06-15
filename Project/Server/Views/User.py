@@ -2,13 +2,13 @@ from datetime import timedelta
 from sys import flags
 from bson import ObjectId
 from fastapi import APIRouter, Body
-from Server.Utils.Image_Handler import Image_Converter
-from Server.Utils.Auth_Bearer import *
-from Server.Database import User_collection
-from Server.Controller.User import update_user
-from Server.Controller.User import Add_User_Measures,retrieve_user_measurment,Add_User_Details,Delete_Old_Image,Check_Email_Mobile ,retrieve_all_Users, delete_user_data, retrieve_user_by_id
+from Project.Server.Utils.Image_Handler import Image_Converter
+from Project.Server.Utils.Auth_Bearer import *
+from Project.Server.Database import User_collection
+from Project.Server.Controller.User import update_user
+from Project.Server.Controller.User import Add_User_Measures,Update_Measurments,retrieve_user_measurment,Add_User_Details,Delete_Old_Image,Check_Email_Mobile ,retrieve_all_Users, delete_user_data, retrieve_user_by_id
 from fastapi.encoders import jsonable_encoder
-from Server.Models.User import User_Details,Add_Measurment, Login, ChangePassword
+from Project.Server.Models.User import User_Details,Add_Measurment, Login, ChangePassword
 
 router = APIRouter()
 
@@ -58,7 +58,7 @@ async def update_user_data(id: str, req: User_Details = Body(...)):
     req = {k: v for k, v in req.dict().items() if v is not None}
     flags=0
     if len(req["IMAGE"])!=0:
-        Del_img= await Delete_Old_Image(id)
+        # Del_img= await Delete_Old_Image(id)
         Image_Path=await Image_Converter(req["IMAGE"])
         req["IMAGE"]=Image_Path
         flags=1
@@ -134,3 +134,14 @@ async def Get_Measurment(id: str):
     if data:
         return {"code": 200, "Data": data}
     return {"Msg": "Id may not exist"}
+
+@router.put("/Update_Measurment/{id}", response_description="Update Measurment")
+async def Update_Measurment(id: str, Measurment: Add_Measurment = Body(...)):
+    req = {k: v for k, v in req.dict().items() if v is not None}
+    updated_user = await Update_Measurments(id, req)
+    if updated_user:
+        return {"code": 200, "Data": "Data updated Successfully"}
+
+    return {
+        "code": 404, "Data": "Something Went Wrong"
+    }

@@ -1,9 +1,9 @@
 import base64
 import uuid
 from fastapi import APIRouter, Body
-from Server.Utils.Image_Handler import Image_Converter
-from Server.Controller.Goals import Add_Goal,Delete_Old_Image,Check_Goal,delete_Goal_data, retrieve_all_Goals, retrieve_Goal_by_id, update_Goal
-from Server.Models.Goal import Goals
+from Project.Server.Utils.Image_Handler import Image_Converter
+from Project.Server.Controller.Goals import Add_Goal,Delete_Old_Image,Check_Goal,delete_Goal_data, retrieve_all_Goals, retrieve_Goal_by_id, update_Goal
+from Project.Server.Models.Goal import Goals
 from fastapi.encoders import jsonable_encoder
 
 router = APIRouter()
@@ -53,7 +53,7 @@ async def update_Goal_data(id: str, req: Goals = Body(...)):
     req = {k: v for k, v in req.dict().items() if v is not None}
     flags=0
     if len(req["IMAGE"])!=0:
-        Del_img= await Delete_Old_Image(id)
+        # Del_img= await Delete_Old_Image(id)
         Image_Path=await Image_Converter(req["IMAGE"])
         req["IMAGE"]=Image_Path
         flags=1

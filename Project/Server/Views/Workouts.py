@@ -1,10 +1,10 @@
 from fastapi import APIRouter, Body
 from bson import ObjectId
-from Server.Utils.Image_Handler import Image_Converter
-from Server.Models.Workouts import Workout
+from Project.Server.Utils.Image_Handler import Image_Converter
+from Project.Server.Models.Workouts import Workout
 from fastapi.encoders import jsonable_encoder
-from Server.Controller.Workouts import Add_Workout, Delete_Old_Image,delete_workout_data, retrieve_workout_by_id, retrieve_all_workouts, update_workout, check_title
-from Server.Database import Workout_collection
+from Project.Server.Controller.Workouts import Add_Workout, Delete_Old_Image,delete_workout_data, retrieve_workout_by_id, retrieve_all_workouts, update_workout, check_title
+from Project.Server.Database import Workout_collection
 
 router = APIRouter()
 
@@ -53,7 +53,7 @@ async def update_workout_data(id: str, req: Workout = Body(...)):
     req = {k: v for k, v in req.dict().items() if v is not None}
     flags=0
     if len(req["IMAGE"])!=0:
-        Del_img= await Delete_Old_Image(id)
+        # Del_img= await Delete_Old_Image(id)
         Image_Path=await Image_Converter(req["IMAGE"])
         req["IMAGE"]=Image_Path
         flags=1

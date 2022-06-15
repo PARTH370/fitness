@@ -1,4 +1,4 @@
-from Server.Database import *
+from Project.Server.Database import *
 import os
 IMAGEDIR=os.getcwd()
 
@@ -62,7 +62,7 @@ async def retrieve_exercise_by_id(exercise_id: str) -> dict:
 async def delete_exercise_data(id: str):
     data = await Exercise_collection.find_one({"_id": ObjectId(id)})
     if data:
-        Img_delete = await Delete_Old_Image(id)
+        # Img_delete = await Delete_Old_Image(id)
         await Exercise_collection.delete_one({"_id": ObjectId(id)})
         return "Data Successfully deleted"
     return "Data Not Found"

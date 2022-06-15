@@ -1,9 +1,9 @@
 import base64
 import uuid
 from fastapi import APIRouter, Body
-from Server.Utils.Image_Handler import Image_Converter
-from Server.Controller.Body_Parts import Add_Bodypart,Delete_Old_Image, Check_Bodypart,delete_bodypart_data, retrieve_all_bodyparts, retrieve_bodypart_by_id, update_bodypart
-from Server.Models.Body_Parts import Bodyparts
+from Project.Server.Utils.Image_Handler import Image_Converter
+from Project.Server.Controller.Body_Parts import Add_Bodypart,Delete_Old_Image, Check_Bodypart,delete_bodypart_data, retrieve_all_bodyparts, retrieve_bodypart_by_id, update_bodypart
+from Project.Server.Models.Body_Parts import Bodyparts
 from fastapi.encoders import jsonable_encoder
 
 router = APIRouter()
@@ -53,7 +53,7 @@ async def update_bodypart_data(id: str, req: Bodyparts = Body(...)):
     req = {k: v for k, v in req.dict().items() if v is not None}
     flags=0
     if len(req["IMAGE"])!=0:
-        Del_img= await Delete_Old_Image(id)
+        # Del_img= await Delete_Old_Image(id)
         Image_Path=await Image_Converter(req["IMAGE"])
         req["IMAGE"]=Image_Path
         flags=1
