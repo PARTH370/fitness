@@ -6,6 +6,7 @@ def Goals_helper(data) -> dict:
     return {
         "_id": str(data["_id"]),
         "TITLE": data["TITLE"],
+        "DESCRIPTION": data["DESCRIPTION"],
         "IMAGE": data["IMAGE"],
     }
 async def Check_Goal(schema: dict):
