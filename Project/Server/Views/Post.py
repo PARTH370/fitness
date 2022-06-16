@@ -9,7 +9,7 @@ from fastapi.encoders import jsonable_encoder
 router = APIRouter()
 
 
-@router.post("/", response_description="Add Post")
+@router.post("/Add_Posts_Data", response_description="Add Post")
 async def add_Posts_data(schema: Posts = Body(...)):
     schema = jsonable_encoder(schema)
     Post= await Check_Post(schema)
@@ -24,7 +24,7 @@ async def add_Posts_data(schema: Posts = Body(...)):
     return {"code": 200, "Msg": Output}
 
 
-@router.get("/", response_description="Get all Posts")
+@router.get("/Get_All_Posts", response_description="Get all Posts")
 async def get_all_Posts():
     Posts = await retrieve_all_Post()
     if Posts:
@@ -32,7 +32,7 @@ async def get_all_Posts():
     return {"Data": Posts, "Msg": "Empty list return"}
 
 
-@router.get("/{id}", response_description="Get Post data by id")
+@router.get("/Get_Post_Data/{id}", response_description="Get Post data by id")
 async def get_Post_data(id):
     data = await retrieve_Post_by_id(id)
     if data:
@@ -40,7 +40,7 @@ async def get_Post_data(id):
     return {"Msg": "Id may not exist"}
 
 
-@router.delete("/{id}", response_description="Delete Post data by id")
+@router.delete("/Delete/{id}", response_description="Delete Post data by id")
 async def delete_Post(id: str):
     data = await delete_Post_data(id)
     if data:
@@ -48,7 +48,7 @@ async def delete_Post(id: str):
     return {"Msg": "Id may not exist"}
 
 
-@router.put("/{id}")
+@router.put("/UPdate/{id}")
 async def update_Post_data(id: str, req: Posts = Body(...)):
     req = {k: v for k, v in req.dict().items() if v is not None}
     flags=0
@@ -66,7 +66,7 @@ async def update_Post_data(id: str, req: Posts = Body(...)):
     }
 
 
-@router.post("/{id}", response_description="Change Post Status")
+@router.post("/Status/{id}", response_description="Change Post Status")
 async def Change_Post_Status(id: str):
     data = await Post_collection.find_one({"_id":ObjectId(id)})
     if data:

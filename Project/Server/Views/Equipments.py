@@ -9,7 +9,7 @@ from fastapi.encoders import jsonable_encoder
 router = APIRouter()
 
 
-@router.post("/", response_description="Add Equipment")
+@router.post("/Add_Equipments_Data", response_description="Add Equipment")
 async def add_Equipments_data(schema: Equipments = Body(...)):
     schema = jsonable_encoder(schema)
     Equipment = await Check_Eqipment(schema)
@@ -24,7 +24,7 @@ async def add_Equipments_data(schema: Equipments = Body(...)):
     return {"code": 200, "Msg": Output}
 
 
-@router.get("/", response_description="Get all Equipments")
+@router.get("/Get_All_Equipments", response_description="Get all Equipments")
 async def get_all_Equipments():
     Equipments = await retrieve_all_Equipments()
     if Equipments:
@@ -32,7 +32,7 @@ async def get_all_Equipments():
     return {"Data": Equipments, "Msg": "Empty list return"}
 
 
-@router.get("/{id}", response_description="Get Equipment data by id")
+@router.get("/Get_Equipment_Data/{id}", response_description="Get Equipment data by id")
 async def get_Equipment_data(id):
     data = await retrieve_Equipment_by_id(id)
     if data:
@@ -40,7 +40,7 @@ async def get_Equipment_data(id):
     return {"Msg": "Id may not exist"}
 
 
-@router.delete("/{id}", response_description="Delete Equipment data by id")
+@router.delete("/Delete/{id}", response_description="Delete Equipment data by id")
 async def delete_Equipment(id: str):
     data = await delete_Equipment_data(id)
     if data:
@@ -48,7 +48,7 @@ async def delete_Equipment(id: str):
     return {"Msg": "Id may not exist"}
 
 
-@router.put("/{id}")
+@router.put("/Update/{id}")
 async def update_Equipment_data(id: str, req: Equipments = Body(...)):
     req = {k: v for k, v in req.dict().items() if v is not None}
     flags=0

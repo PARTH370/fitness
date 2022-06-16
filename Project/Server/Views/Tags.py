@@ -5,35 +5,35 @@ from fastapi.encoders import jsonable_encoder
 
 router = APIRouter()
 
-@router.post("/", response_description="Add Tag")
+@router.post("/Add_Tag", response_description="Add Tag")
 async def add_Tags_data(schema: Tags = Body(...)):
     schema = jsonable_encoder(schema)
     Output = await Add_Tag(schema)
     return {"code": 200,"Msg":Output }
 
 
-@router.get("/",response_description="Get all Tags")
+@router.get("/Get_All_Tag",response_description="Get all Tags")
 async def get_all_Tags():
     Tags = await retrieve_all_Tags()
     if Tags:
         return {"code": 200,"Data":Tags}
     return {"Data":Tags,"Msg":"Empty list return"}
 
-@router.get("/{id}",response_description="Get Tag data by id")
+@router.get("/Get_Tag_Data/{id}",response_description="Get Tag data by id")
 async def get_Tag_data(id):
     data = await retrieve_Tag_by_id(id)
     if data:
         return {"code": 200,"Data":data}
     return {"Msg":"Id may not exist"}
 
-@router.delete("/{id}",response_description="Delete Tag data by id")
+@router.delete("/Delete/{id}",response_description="Delete Tag data by id")
 async def delete_Tag(id:str):
     data = await delete_Tag_data(id)
     if data:
         return {"code": 200,"Msg":data}
     return {"Msg":"Id may not exist"}
 
-@router.put("/{id}")
+@router.put("/Update/{id}")
 async def update_Tag_data(id: str, req: Tags = Body(...)):
     req = {k: v for k, v in req.dict().items() if v is not None}
     updated_Tag = await update_Tag(id, req)

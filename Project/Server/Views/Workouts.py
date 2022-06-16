@@ -9,7 +9,7 @@ from Project.Server.Database import Workout_collection
 router = APIRouter()
 
 
-@router.post("/", response_description="Add Workout")
+@router.post("/Add_Workout", response_description="Add Workout")
 async def add_workouts_data(schema: Workout = Body(...)):
     schema = jsonable_encoder(schema)
     Title = await check_title(schema['TITLE'])
@@ -24,7 +24,7 @@ async def add_workouts_data(schema: Workout = Body(...)):
     return {"code": 200, "Msg": Output}
 
 
-@router.get("/", response_description="Get all workout")
+@router.get("/Get_All_Workouts", response_description="Get all workout")
 async def get_all_workouts():
     workout = await retrieve_all_workouts()
     if workout:
@@ -32,7 +32,7 @@ async def get_all_workouts():
     return {"Data": workout, "Msg": "Empty list return"}
 
 
-@router.get("/{id}", response_description="Get workout data by id")
+@router.get("/Get_Workout_Data/{id}", response_description="Get workout data by id")
 async def get_workouts_data(id):
     data = await retrieve_workout_by_id(id)
     if data:
@@ -40,7 +40,7 @@ async def get_workouts_data(id):
     return {"Msg": "Id may not exist"}
 
 
-@router.delete("/{id}", response_description="Delete workout data by id")
+@router.delete("/Delete/{id}", response_description="Delete workout data by id")
 async def delete_workout(id: str):
     data = await delete_workout_data(id)
     if data:
@@ -48,7 +48,7 @@ async def delete_workout(id: str):
     return {"Msg": "Id may not exist"}
 
 
-@router.put("/{id}")
+@router.put("/Update/{id}")
 async def update_workout_data(id: str, req: Workout = Body(...)):
     req = {k: v for k, v in req.dict().items() if v is not None}
     flags=0
@@ -64,7 +64,7 @@ async def update_workout_data(id: str, req: Workout = Body(...)):
         "code": 404, "Data": "Something Went Wrong"
     }
 
-@router.post("/{id}" , response_description="Change workout Status")
+@router.post("/Status/{id}" , response_description="Change workout Status")
 async def Change_workout_Status(id: str):
     data = await Workout_collection.find_one({"_id":ObjectId(id)})
     if data:

@@ -9,7 +9,7 @@ from fastapi.encoders import jsonable_encoder
 router = APIRouter()
 
 
-@router.post("/", response_description="Add Exercise")
+@router.post("/Add_Exercise_Data", response_description="Add Exercise")
 async def add_exercise_data(schema: Exercise = Body(...)):
     schema = jsonable_encoder(schema)
     Exercises= await Check_Exercises(schema)
@@ -24,7 +24,7 @@ async def add_exercise_data(schema: Exercise = Body(...)):
     return {"code": 200, "Msg": Output}
 
 
-@router.get("/", response_description="Get all Exercises")
+@router.get("/Get_All_Exercises", response_description="Get all Exercises")
 async def get_all_Exercises():
     workout = await retrieve_all_Exercises()
     if workout:
@@ -32,7 +32,7 @@ async def get_all_Exercises():
     return {"Data": workout, "Msg": "Empty list return"}
 
 
-@router.get("/{id}", response_description="Get Exercise data by id")
+@router.get("/Get_Exercise_Data/{id}", response_description="Get Exercise data by id")
 async def get_exercise_data(id):
     data = await retrieve_exercise_by_id(id)
     if data:
@@ -40,7 +40,7 @@ async def get_exercise_data(id):
     return {"Msg": "Id may not exist"}
 
 
-@router.delete("/{id}", response_description="Delete Exercise data by id")
+@router.delete("/Delete/{id}", response_description="Delete Exercise data by id")
 async def delete_exercise(id: str):
     data = await delete_exercise_data(id)
     if data:
@@ -48,7 +48,7 @@ async def delete_exercise(id: str):
     return {"Msg": "Id may not exist"}
 
 
-@router.put("/{id}")
+@router.put("/Update/{id}")
 async def update_exercise_data(id: str, req: Exercise = Body(...)):
     req = {k: v for k, v in req.dict().items() if v is not None}
     flags=0

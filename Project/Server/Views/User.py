@@ -13,7 +13,7 @@ from Project.Server.Models.User import User_Details,Add_Measurment, Login, Chang
 router = APIRouter()
 
 
-@router.post("/", response_description="User Registration")
+@router.post("/User_Registration", response_description="User Registration")
 async def User_Registration(data: User_Details = Body(...)):
     data = jsonable_encoder(data)
     Email= await Check_Email_Mobile(data)
@@ -29,7 +29,7 @@ async def User_Registration(data: User_Details = Body(...)):
     return {"code": 200, "Msg": Output}
 
 
-@router.get("/", response_description="Get all User Details")
+@router.get("/Get_All_Users", response_description="Get all User Details")
 async def get_all_Users():
     workout = await retrieve_all_Users()
     if workout:
@@ -37,7 +37,7 @@ async def get_all_Users():
     return {"Data": workout, "Msg": "Empty list return"}
 
 
-@router.get("/{id}", response_description="Get user information data by id")
+@router.get("/Get_User_Data/{id}", response_description="Get user information data by id")
 async def get_user_data(id):
     data = await retrieve_user_by_id(id)
     if data:
@@ -45,7 +45,7 @@ async def get_user_data(id):
     return {"Msg": "Id may not exist"}
 
 
-@router.delete("/{id}", response_description="Delete user data by id")
+@router.delete("/Delete/{id}", response_description="Delete user data by id")
 async def delete_User(id: str):
     data = await delete_user_data(id)
     if data:
@@ -53,7 +53,7 @@ async def delete_User(id: str):
     return {"Msg": "Id may not exist"}
 
 
-@router.put("/{id}")
+@router.put("/Update/{id}")
 async def update_user_data(id: str, req: User_Details = Body(...)):
     req = {k: v for k, v in req.dict().items() if v is not None}
     flags=0
@@ -70,7 +70,7 @@ async def update_user_data(id: str, req: User_Details = Body(...)):
         "code": 404, "Data": "Something Went Wrong"
     }
 
-@router.post("/{id}", response_description="Change Status")
+@router.post("/Status/{id}", response_description="Change Status")
 async def Change_Status(id: str):
     data = await User_collection.find_one({"_id": ObjectId(id)})
     if data:

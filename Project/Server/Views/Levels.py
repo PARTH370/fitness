@@ -9,7 +9,7 @@ from fastapi.encoders import jsonable_encoder
 router = APIRouter()
 
 
-@router.post("/", response_description="Add Level")
+@router.post("/Add_Levels", response_description="Add Level")
 async def add_Levels_data(schema: Levels = Body(...)):
     schema = jsonable_encoder(schema)
     Level =await Check_Level(schema)
@@ -24,7 +24,7 @@ async def add_Levels_data(schema: Levels = Body(...)):
     return {"code": 200, "Msg": Output}
 
 
-@router.get("/", response_description="Get all Levels")
+@router.get("/Get_all_Levels", response_description="Get all Levels")
 async def get_all_Levels():
     Levels = await retrieve_all_Levels()
     if Levels:
@@ -32,7 +32,7 @@ async def get_all_Levels():
     return {"Data": Levels, "Msg": "Empty list return"}
 
 
-@router.get("/{id}", response_description="Get Level data by id")
+@router.get("/Get_Level_Data/{id}", response_description="Get Level data by id")
 async def get_Level_data(id):
     data = await retrieve_Level_by_id(id)
     if data:
@@ -40,7 +40,7 @@ async def get_Level_data(id):
     return {"Msg": "Id may not exist"}
 
 
-@router.delete("/{id}", response_description="Delete Level data by id")
+@router.delete("/Delete/{id}", response_description="Delete Level data by id")
 async def delete_Level(id: str):
     data = await delete_Level_data(id)
     if data:
@@ -48,7 +48,7 @@ async def delete_Level(id: str):
     return {"Msg": "Id may not exist"}
 
 
-@router.put("/{id}")
+@router.put("/Update/{id}")
 async def update_Level_data(id: str, req: Levels = Body(...)):
     req = {k: v for k, v in req.dict().items() if v is not None}
     flags=0

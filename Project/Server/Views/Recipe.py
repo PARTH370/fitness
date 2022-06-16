@@ -9,7 +9,7 @@ from fastapi.encoders import jsonable_encoder
 router = APIRouter()
 
 
-@router.post("/", response_description="Add Recipe")
+@router.post("/Add_Recipe_Data", response_description="Add Recipe")
 async def add_recipe_data(schema:  Recipe = Body(...)):
     schema = jsonable_encoder(schema)
     Recipes=await Check_Recipe(schema)
@@ -24,7 +24,7 @@ async def add_recipe_data(schema:  Recipe = Body(...)):
     return {"code": 200, "Msg": Output}
 
 
-@router.get("/", response_description="Get all Recipe")
+@router.get("/Get_All_Recipe", response_description="Get all Recipe")
 async def get_all_Recipe():
     Recipe = await retrieve_all_Recipess()
     if Recipe:
@@ -32,7 +32,7 @@ async def get_all_Recipe():
     return {"Data": Recipe, "Msg": "Empty list return"}
 
 
-@router.get("/{id}", response_description="Get Recipe data by id")
+@router.get("/Get_Recipe_Data/{id}", response_description="Get Recipe data by id")
 async def get_recipe_data(id):
     data = await retrieve_Recipes_by_id(id)
     if data:
@@ -40,7 +40,7 @@ async def get_recipe_data(id):
     return {"Msg": "Id may not exist"}
 
 
-@router.delete("/{id}", response_description="Delete Recipe data by id")
+@router.delete("/Delete/{id}", response_description="Delete Recipe data by id")
 async def delete_recipe(id: str):
     data = await delete_Recipes_data(id)
     if data:
@@ -48,7 +48,7 @@ async def delete_recipe(id: str):
     return {"Msg": "Id may not exist"}
 
 
-@router.put("/{id}")
+@router.put("/Update/{id}")
 async def update_Recipe_data(id: str, req: Recipe = Body(...)):
     req = {k: v for k, v in req.dict().items() if v is not None}
     flags=0
@@ -66,7 +66,7 @@ async def update_Recipe_data(id: str, req: Recipe = Body(...)):
     }
 
 
-@router.post("/{id}", response_description="Change Status of Recipe")
+@router.post("/Status/{id}", response_description="Change Status of Recipe")
 async def Change_Recipe_Status(id: str):
     data = await Recipes_collection.find_one({"_id":ObjectId(id)})
     if data:

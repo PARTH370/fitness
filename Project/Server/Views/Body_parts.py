@@ -9,7 +9,7 @@ from fastapi.encoders import jsonable_encoder
 router = APIRouter()
 
 
-@router.post("/", response_description="Add Body Part")
+@router.post("/Add_Bodyparts_Data", response_description="Add Body Part")
 async def add_bodyparts_data(schema: Bodyparts = Body(...)):
     schema = jsonable_encoder(schema)
     Bodypart= await Check_Bodypart(schema)
@@ -24,7 +24,7 @@ async def add_bodyparts_data(schema: Bodyparts = Body(...)):
     return {"code": 200, "Msg": Output}
 
 
-@router.get("/", response_description="Get all body parts")
+@router.get("/Get_All_Bodyparts", response_description="Get all body parts")
 async def get_all_bodyparts():
     bodyparts = await retrieve_all_bodyparts()
     if bodyparts:
@@ -32,7 +32,7 @@ async def get_all_bodyparts():
     return {"Data": bodyparts, "Msg": "Empty list return"}
 
 
-@router.get("/{id}", response_description="Get Body Part data by id")
+@router.get("/Get_Bodypart_Data/{id}", response_description="Get Body Part data by id")
 async def get_bodypart_data(id):
     data = await retrieve_bodypart_by_id(id)
     if data:
@@ -40,7 +40,7 @@ async def get_bodypart_data(id):
     return {"Msg": "Id may not exist"}
 
 
-@router.delete("/{id}", response_description="Delete Body Part data by id")
+@router.delete("/Delete/{id}", response_description="Delete Body Part data by id")
 async def delete_bodypart(id: str):
     data = await delete_bodypart_data(id)
     if data:
@@ -48,7 +48,7 @@ async def delete_bodypart(id: str):
     return {"Msg": "Id may not exist"}
 
 
-@router.put("/{id}")
+@router.put("/Update/{id}")
 async def update_bodypart_data(id: str, req: Bodyparts = Body(...)):
     req = {k: v for k, v in req.dict().items() if v is not None}
     flags=0

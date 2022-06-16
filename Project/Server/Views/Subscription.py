@@ -9,7 +9,7 @@ from fastapi.encoders import jsonable_encoder
 
 router = APIRouter()
 
-@router.post("/", response_description="Add Subscriptions")
+@router.post("/Add_Subscription_Data", response_description="Add Subscriptions")
 async def add_Subscription_data(schema:  Subscriptions = Body(...)):
     schema = jsonable_encoder(schema)
     Subscriptions=await Check_Subscriptions(schema)
@@ -24,28 +24,28 @@ async def add_Subscription_data(schema:  Subscriptions = Body(...)):
     Output = await Add_Subscriptions(schema)
     return {"code": 200, "Msg": Output}
 
-@router.get("/", response_description="Get all Subscriptions")
+@router.get("/Get_All_Subscriptions", response_description="Get all Subscriptions")
 async def get_all_Subscriptions():
     Subscriptions = await retrieve_all_Subscriptions()
     if Subscriptions:
         return {"code": 200, "Data": Subscriptions}
     return {"Data": Subscriptions, "Msg": "Empty list return"}
 
-@router.get("/{id}", response_description="Get Subscriptions data by id")
+@router.get("/Get_Subscriptions_Data/{id}", response_description="Get Subscriptions data by id")
 async def get_Subscriptions_data(id):
     data = await retrieve_Subscriptions_by_id(id)
     if data:
         return {"code": 200, "Data": data}
     return {"Msg": "Id may not exist"}
 
-@router.delete("/{id}", response_description="Delete Subscriptions data by id")
+@router.delete("/Delete/{id}", response_description="Delete Subscriptions data by id")
 async def delete_Subscriptions(id: str):
     data = await delete_Subscriptions_data(id)
     if data:
         return {"code": 200, "Msg": data}
     return {"Msg": "Id may not exist"}
 
-@router.put("/{id}")
+@router.put("/Update/{id}")
 async def update_Subscriptions_data(id: str, req: Subscriptions = Body(...)):
     req = {k: v for k, v in req.dict().items() if v is not None}
     flags=0
@@ -59,7 +59,7 @@ async def update_Subscriptions_data(id: str, req: Subscriptions = Body(...)):
         return {"code": 200, "Data": "Data updated Successfully"}
     return {"code": 200, "Msg": "Id may not exist"}
 
-@router.post("/{id}",response_description="Change Subscriptions status")
+@router.post("/Status/{id}",response_description="Change Subscriptions status")
 async def change_Subscriptions_status(id:str):
     data = await Subscription_collection.find_one({"_id": ObjectId(id)})
     if data:
