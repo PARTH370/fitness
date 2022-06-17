@@ -26,7 +26,7 @@ async def User_Registration(data: User_Details = Body(...)):
     data['IMAGE'] = str(img_path)
     data['PassWord'] = get_password_hash(data['PassWord'])
     Output = await Add_User_Details(data)
-    return {"code": 200, "Msg": Output}
+    return {"code": 200, "User_id": Output["_id"]}
 
 
 @router.get("/Get_All_Users", response_description="Get all User Details")

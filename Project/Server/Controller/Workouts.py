@@ -46,6 +46,9 @@ async def Delete_Old_Image(id:str):
 
 async def Add_Workout(schema: dict) -> dict:
     Titles = await Workout_collection.insert_one(schema)
+    if Titles:
+        data= await Workout_collection.find_one({"TITLE": schema["TITLE"]})
+        return workout_helper(data)
     return "Workout Successfully added"
 
 

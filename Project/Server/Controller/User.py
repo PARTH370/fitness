@@ -79,7 +79,10 @@ async def Delete_Old_Image(id:str):
 async def Add_User_Details(Data: dict) -> dict:
     
         user = await User_collection.insert_one(Data)
-        return "User Successfully added"
+        if user:
+            data = await User_collection.find_one({"Email": Data["Email"]})
+            return User_helper(data)
+        # return "User Successfully added"
 
 async def Add_User_Measures(data : dict):
     Measures= Measurments_collection.insert_one(data)
