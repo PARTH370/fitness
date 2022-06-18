@@ -18,7 +18,7 @@ async def User_Registration(data: User_Details = Body(...)):
     data = jsonable_encoder(data)
     Email= await Check_Email_Mobile(data)
     if Email == False:
-        return {"code": 200, "Msg": 'Email or Mobile Already Registered'}
+        return {"code": 400, "Msg": 'Email or Mobile Already Registered'}
     if len(data['IMAGE'])>0:
         img_path=await Image_Converter(data['IMAGE'])
     else:

@@ -16,7 +16,7 @@ async def add_Levels_data(schema: Levels = Body(...)):
     if Level==False:
         return {"code": 200, "Msg":"Levels already exists"}
     if len(schema['IMAGE'])>0:    
-        img_path=await Image_Converter(schema['IMAGE'])
+        img_path= await Image_Converter(schema['IMAGE'])
     else:
         img_path=""
     schema['IMAGE'] = str(img_path)
