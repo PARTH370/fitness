@@ -16,13 +16,13 @@ class Workout(BaseModel):
     EQUIPMENT: str
     DURATION: str
     PRICE: str
-    DAY_1: List[str]
-    DAY_2: List[str]
-    DAY_3: List[str]
-    DAY_4: List[str]
-    DAY_5: List[str]
-    DAY_6: List[str]
-    DAY_7: List[str]
+    DAY_1: List[dict]
+    DAY_2: List[dict]
+    DAY_3: List[dict]
+    DAY_4: List[dict]
+    DAY_5: List[dict]
+    DAY_6: List[dict]
+    DAY_7: List[dict]
     STATUS: str
     IMAGE:bytes
     class Config:
