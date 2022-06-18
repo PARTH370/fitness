@@ -14,7 +14,7 @@ async def add_exercise_data(schema: Exercise = Body(...)):
     schema = jsonable_encoder(schema)
     Exercises= await Check_Exercises(schema)
     if Exercises==False:
-        return {"code": 200, "Msg":"Exercise already exists"}
+        return {"code": 400, "Msg":"Exercise already exists"}
     if len(schema['IMAGE'])>0:
         img_path=await Image_Converter(schema['IMAGE'])
     else:

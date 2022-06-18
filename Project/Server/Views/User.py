@@ -2,10 +2,11 @@ from datetime import timedelta
 from sys import flags
 from bson import ObjectId
 from fastapi import APIRouter, Body
+from Project.Server.Controller.Workouts import workout_helper
 from Project.Server.Utils.Image_Handler import Image_Converter
 from Project.Server.Utils.Auth_Bearer import *
-from Project.Server.Database import User_collection
-from Project.Server.Controller.User import update_user
+from Project.Server.Database import User_collection, Workout_collection
+from Project.Server.Controller.User import User_helper, update_user
 from Project.Server.Controller.User import Add_User_Measures,Update_Measurments,retrieve_user_measurment,Add_User_Details,Delete_Old_Image,Check_Email_Mobile ,retrieve_all_Users, delete_user_data, retrieve_user_by_id
 from fastapi.encoders import jsonable_encoder
 from Project.Server.Models.User import User_Details,Add_Measurment, Login, ChangePassword
@@ -145,3 +146,18 @@ async def Update_Measurment(id: str, Measurment: Add_Measurment = Body(...)):
     return {
         "code": 404, "Data": "Something Went Wrong"
     }
+
+@router.get("/Get_User_Workout/{id}", response_description="Get user workout")
+async def Get_user_workout(id: str):
+    user = await User_collection.find_one({"_id": ObjectId(id)})
+    user = User_helper(user)
+    if user:
+        workout_list = user['Workout']
+        output = []
+        for each_workout in workout_list:
+            workout = await Workout_collection.find_one({"_id": ObjectId(each_workout)})
+            workout = workout_helper(workout)
+            output.append(workout)
+        return {"code": 200, "Data": output}
+    else:
+        return {"code": 404, "Data": "User not found"}
