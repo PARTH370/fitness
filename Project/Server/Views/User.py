@@ -65,7 +65,10 @@ async def update_user_data(id: str, req: User_Details = Body(...)):
         flags=1
     updated_user = await update_user(id, req,flags)
     if updated_user:
-        return {"code": 200, "Data": "Data updated Successfully"}
+        data = await retrieve_user_by_id(id)
+        if data:
+            return {"code": 200, "Data": data}
+        # return {"code": 200, "Data": "Data updated Successfully"}
 
     return {
         "code": 404, "Data": "Something Went Wrong"
