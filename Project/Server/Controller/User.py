@@ -119,7 +119,7 @@ async def update_user(id: str, data: dict,flags:int):
         return False
     user = await User_collection.find_one({"_id": ObjectId(id)})
     try:
-        if flags == 0:
+        if flags == 1:
             data["IMAGE"]=user['IMAGE']
     except:
         pass
