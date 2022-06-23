@@ -58,11 +58,14 @@ async def delete_User(id: str):
 async def update_user_data(id: str, req: User_Details = Body(...)):
     req = {k: v for k, v in req.dict().items() if v is not None}
     flags=0
-    if len(req["IMAGE"])!=0:
-        # Del_img= await Delete_Old_Image(id)
-        Image_Path=await Image_Converter(req["IMAGE"])
-        req["IMAGE"]=Image_Path
-        flags=1
+    try:
+        if len(req["IMAGE"])!=0:
+            # Del_img= await Delete_Old_Image(id)
+            Image_Path=await Image_Converter(req["IMAGE"])
+            req["IMAGE"]=Image_Path
+            flags=1
+    except:
+        pass
     updated_user = await update_user(id, req,flags)
     if updated_user:
         data = await retrieve_user_by_id(id)
