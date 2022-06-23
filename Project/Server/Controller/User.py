@@ -118,8 +118,11 @@ async def update_user(id: str, data: dict,flags:int):
     if len(data) < 1:
         return False
     user = await User_collection.find_one({"_id": ObjectId(id)})
-    if flags == 0:
-        data["IMAGE"]=user['IMAGE']
+    try:
+        if flags == 0:
+            data["IMAGE"]=user['IMAGE']
+    except:
+        pass
     if user:
         updated_user = await User_collection.update_one(
             {"_id": ObjectId(id)}, {"$set": data}
