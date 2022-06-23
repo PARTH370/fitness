@@ -114,15 +114,15 @@ async def delete_user_data(id: str):
     return "User Not Found"
 
 
-async def update_user(id: str, data: dict,flags:int):
+async def update_user(id: str, data: dict):
     if len(data) < 1:
         return False
     user = await User_collection.find_one({"_id": ObjectId(id)})
-    try:
-        if flags == 1:
-            data["IMAGE"]=user['IMAGE']
-    except:
-        pass
+    # try:
+    #     if flags == 1:
+    #         data["IMAGE"]=user['IMAGE']
+    # except:
+    #     pass
     if user:
         updated_user = await User_collection.update_one(
             {"_id": ObjectId(id)}, {"$set": data}
