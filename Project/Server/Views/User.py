@@ -162,3 +162,10 @@ async def Get_user_workout(id: str):
         return {"code": 200, "Data": output}
     else:
         return {"code": 404, "Data": "User not found"}
+
+@router.get("/Calculate_BMI/{id}", response_description="Calculate BMI")
+async def Get_Calculate_BMI(id: str):
+    data = await retrieve_user_by_id(id)  
+    meter =(data["Height"]/100)
+    BMI =( (data['Weight'])/(meter*meter) )
+    return {"code": 200,"Msg":BMI}
