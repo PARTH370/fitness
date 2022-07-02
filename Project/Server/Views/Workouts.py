@@ -21,7 +21,7 @@ async def add_workouts_data(schema: Workout = Body(...)):
         img_path=""
     schema['IMAGE'] = str(img_path)
     Output = await Add_Workout(schema)
-    return {"code": 200, "Msg": Output["_id"]}
+    return {"code": 200, "Msg": "Workout successfully added"}
 
 
 @router.get("/Get_All_Workouts", response_description="Get all workout")
