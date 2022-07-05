@@ -50,7 +50,7 @@ async def delete_Level(id: str):
 
 @router.put("/Update/{id}")
 async def update_Level_data(id: str, req: Levels = Body(...)):
-    req = {k: v for k, v in req.dict().items() if v is not None}
+    req = jsonable_encoder(req)
     flags=0
     if len(req["IMAGE"])!=0:
         # Del_img= await Delete_Old_Image(id)

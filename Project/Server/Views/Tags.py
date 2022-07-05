@@ -35,7 +35,7 @@ async def delete_Tag(id:str):
 
 @router.put("/Update/{id}")
 async def update_Tag_data(id: str, req: Tags = Body(...)):
-    req = {k: v for k, v in req.dict().items() if v is not None}
+    req = jsonable_encoder(req)
     updated_Tag = await update_Tag(id, req)
     if updated_Tag:
         return {"code": 200,"Data":"Data updated Successfully"}

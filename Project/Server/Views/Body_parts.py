@@ -50,7 +50,7 @@ async def delete_bodypart(id: str):
 
 @router.put("/Update/{id}")
 async def update_bodypart_data(id: str, req: Bodyparts = Body(...)):
-    req = {k: v for k, v in req.dict().items() if v is not None}
+    req = jsonable_encoder(req)
     flags=0
     if len(req["IMAGE"])!=0:
         # Del_img= await Delete_Old_Image(id)
