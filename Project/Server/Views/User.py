@@ -55,8 +55,12 @@ async def delete_User(id: str):
 
 
 @router.put("/Update/{id}")
-async def update_user_data(id: str, Details:dict):
-    data = jsonable_encoder(Details)
+async def update_user_data(id: str,  req : User_Details):
+    req = jsonable_encoder(req)
+    data={}
+    for j in req.keys():
+       if len(str(req[j])) > 0:
+        data[j] = req[j]
     try:
         if len(data["IMAGE"])!=0:
             # Del_img= await Delete_Old_Image(id)
@@ -71,6 +75,7 @@ async def update_user_data(id: str, Details:dict):
     return {
         "code": 404, "Data": "Something Went Wrong"
     }
+    
 
 @router.post("/Status/{id}", response_description="Change Status")
 async def Change_Status(id: str):
