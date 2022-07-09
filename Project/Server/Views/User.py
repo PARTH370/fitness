@@ -2,10 +2,12 @@ from datetime import timedelta
 from sys import flags
 from bson import ObjectId
 from fastapi import APIRouter, Body
-from Project.Server.Controller.Workouts import workout_helper
+from Project.Server.Controller.Exercise import Exercise_helper
+from Project.Server.Controller.Workouts import update_workout, workout_helper
+from Project.Server.Models.Workouts import Workout
 from Project.Server.Utils.Image_Handler import Image_Converter
 from Project.Server.Utils.Auth_Bearer import *
-from Project.Server.Database import User_collection, Workout_collection
+from Project.Server.Database import Exercise_collection, User_collection, Workout_collection
 from Project.Server.Controller.User import User_helper, update_user
 from Project.Server.Controller.User import Add_User_Measures,Update_Measurments,retrieve_user_measurment,Add_User_Details,Delete_Old_Image,Check_Email_Mobile ,retrieve_all_Users, delete_user_data, retrieve_user_by_id
 from fastapi.encoders import jsonable_encoder
@@ -142,13 +144,23 @@ async def Get_Measurment(id: str):
         return {"code": 200, "Data": data}
     return {"Msg": "Id may not exist"}
 
-@router.put("/Update_Measurment/{id}", response_description="Update Measurment")
-async def Update_Measurment(id: str, Measurment: Add_Measurment = Body(...)):
-    req = {k: v for k, v in req.dict().items() if v is not None}
-    updated_user = await Update_Measurments(id, req)
-    if updated_user:
+@router.put("/{id}")
+async def update_workout_data(id: str, req: Workout):
+    req = jsonable_encoder(req)
+    data={}
+    for j in req.keys():
+       if len(str(req[j])) > 0:
+        data[j] = req[j]
+    try:
+        if len(data["IMAGE"])!=0:
+            # Del_img= await Delete_Old_Image(id)
+            Image_Path=await Image_Converter(data["IMAGE"])
+            data["IMAGE"]=Image_Path
+    except:
+        pass
+    updated_workout = await update_workout(id, req)
+    if updated_workout:
         return {"code": 200, "Data": "Data updated Successfully"}
-
     return {
         "code": 404, "Data": "Something Went Wrong"
     }
@@ -174,3 +186,35 @@ async def Get_Calculate_BMI(id: str):
     meter =(data["Height"]/100)
     BMI =( (data['Weight'])/(meter*meter) )
     return {"code": 200,"Msg":BMI}
+
+
+@router.get("/User_Exercise/{id}" , response_description="Get user Exercise Details")
+async def get_user_exercise_details(id):
+    try:
+        user = await User_collection.find_one({"_id": ObjectId(id)})
+        user = User_helper(user)
+        if user is not None:
+            workout_list = user['Workout']
+            output = []
+            for each_workout in workout_list:
+                if len(each_workout) > 0:
+                    workout = await Workout_collection.find_one({"_id": ObjectId(each_workout)})
+                    workout = workout_helper(workout)
+                    if workout is not None:
+                        for Day in range(1,8):
+                            DAY="DAY_"+str(Day)
+                            if len(workout[DAY])>0:
+                                for excrcise_id in workout[DAY]:
+                                    if len(excrcise_id)>1:
+                                        Exercise = await Exercise_collection.find_one({"_id": ObjectId(excrcise_id)})
+                                        output.append(Exercise_helper(Exercise))
+            if len(output)==0:
+                return {"code": 200,'msg':'Not any workout assigned contact administration'}
+            return {"code": 200,"msg": output}
+        else:
+            return {"code": 400,"msg": "user not found"}
+
+
+        
+    except Exception as e:
+        return {"code": 404,"Data": "Something Went Wrong", "msg": e.args}
