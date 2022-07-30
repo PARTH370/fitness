@@ -6,8 +6,8 @@ from pydantic import BaseModel, HttpUrl
 
 class Exercise(BaseModel):
     TITLE: str
-    BODYPART: str
-    EQUIPMENT: str
+    BODYPART: List[str]
+    EQUIPMENT: List[str]
     LEVEL: str
     REST: str
     SETS: str
@@ -22,8 +22,8 @@ class Exercise(BaseModel):
         schema_extra = {
             "example": {
                 "TITLE": "Reclining Triceps Press",
-                "BODYPART": "Shoulders, Abs, Triceps",
-                'EQUIPMENT': "None",
+                "BODYPART": [],
+                'EQUIPMENT': [],
                 "LEVEL": "Beginner",
                 "REST": "45 Sec",
                 "SETS": "4",

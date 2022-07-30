@@ -68,12 +68,10 @@ async def delete_exercise_data(id: str):
     return "Data Not Found"
 
 
-async def update_exercise(id: str, data: dict,flags:int):
+async def update_exercise(id: str, data: dict):
     if len(data) < 1:
         return False
     exercise = await Exercise_collection.find_one({"_id": ObjectId(id)})
-    if flags == 0:
-        data["IMAGE"]=exercise['IMAGE']
     if exercise:
         updated_exercise = await Exercise_collection.update_one(
             {"_id": ObjectId(id)}, {"$set": data}

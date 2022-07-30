@@ -51,16 +51,22 @@ async def delete_exercise(id: str):
 @router.put("/Update/{id}")
 async def update_exercise_data(id: str, req: Exercise = Body(...)):
     req = jsonable_encoder(req)
-    flags=0
-    if len(req["IMAGE"])!=0:
-        # Del_img= await Delete_Old_Image(id)
-        Image_Path=await Image_Converter(req["IMAGE"])
-        req["IMAGE"]=Image_Path
-        flags=1
-    updated_exercise = await update_exercise(id, req,flags)
+    data = {}
+    for i, j in req.items():
+        if type(j) == list:
+            if len(j) > 0:
+                data[i] = j
+        elif (type(j) == str or type(j) == int) and (len(str(j)) > 0):
+            data[i] = j
+
+    if 'IMAGE' in data:
+        if len(data["IMAGE"]) != 0:
+            # Del_img= await Delete_Old_Image(id)
+            imagepath = await Image_Converter(data["IMAGE"])
+            data["IMAGE"] = imagepath
+    updated_exercise = await update_exercise(id, req)
     if updated_exercise:
         return {"code": 200, "Data": "Data updated Successfully"}
 
-    return {
-        "code": 404, "Data": "Something Went Wrong"
-    }
+    return {"code": 404, "Data": "Something Went Wrong"}
+
