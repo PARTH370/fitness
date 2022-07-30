@@ -147,23 +147,19 @@ async def Get_Measurment(id: str):
 @router.put("/{id}")
 async def update_workout_data(id: str, req: Workout):
     req = jsonable_encoder(req)
-    data={}
-    for j in req.keys():
-       if len(str(req[j])) > 0:
-        data[j] = req[j]
-    try:
-        if len(data["IMAGE"])!=0:
-            # Del_img= await Delete_Old_Image(id)
-            Image_Path=await Image_Converter(data["IMAGE"])
-            data["IMAGE"]=Image_Path
-    except:
-        pass
-    updated_workout = await update_workout(id, req)
-    if updated_workout:
+    data = {q: s for q,s in req.items() if len(str(s))!=0}
+
+    if len(data["IMAGE"]) != 0:
+        # Del_img= await Delete_Old_Image(id)
+        imagepath = await Image_Converter(data["IMAGE"])
+        data["IMAGE"] = imagepath
+
+    updated_user = await update_user(id, data)
+    if updated_user:
         return {"code": 200, "Data": "Data updated Successfully"}
-    return {
-        "code": 404, "Data": "Something Went Wrong"
-    }
+
+    return {"code": 404, "Data": "Something Went Wrong"}
+
 
 @router.get("/Get_User_Workout/{id}", response_description="Get user workout")
 async def Get_user_workout(id: str):
