@@ -30,6 +30,7 @@ from Project.Server.Models.User import (
     Add_Measurment,
     Login,
     ChangePassword,
+    update_users
 )
 
 router = APIRouter()
@@ -78,7 +79,7 @@ async def delete_User(id: str):
 
 
 @router.put("/Update/{id}")
-async def update_user_data(id: str, req: User_Details):
+async def update_user_data(id: str, req: update_users):
     req = jsonable_encoder(req)
     data = {}
     for i, j in req.items():

@@ -47,6 +47,49 @@ class User_Details(BaseModel):
             }
         }
 
+class update_users(BaseModel):
+    Name: str
+    Email: str
+
+    Mobile: int
+    Gender: str
+    Age: int
+    Goal: str
+    Category: str
+    Height: int
+    Weight: int
+    Verified: str
+    Diets: List[str]
+    Workout: List[str]
+    Favourites_Exercises: List[str]
+    Favourites_Recipes: List[str]
+    Status: str
+    Joining_Date: Optional[datetime] = Field(default_factory=datetime.utcnow)
+    Last_Login: Optional[datetime] = Field(default_factory=datetime.utcnow)
+    IMAGE:bytes
+
+    class Config:
+        schema_extra = {
+            "example": {
+                "Name": "kavibhai",
+                "Email": "kavi@example.com",
+                "Mobile": 9908092111,
+                'Gender': "Male",
+                "Age": 25,
+                "Goal": "Gain",
+                "Category": "Veg",
+                "Height": 4.6,
+                "Weight": 55,   
+                "Verified": "Yes",
+                "Diets": [],
+                "Workout": [],
+                "Favourites_Exercises": [],
+                "Favourites_Recipes": [],
+                "Status": 'Active',
+                'IMAGE':"BASE64 PATH"
+            }
+        }
+
 
 class Login(BaseModel):
     Email: str
