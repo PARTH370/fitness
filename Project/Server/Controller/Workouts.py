@@ -67,10 +67,23 @@ async def retrieve_workout_by_id(workout_id: str) -> dict:
         return "Workout not found"
 
 
+async def add_data(id:str, data):
+    await User_collection.update_one(
+            {"_id": ObjectId(id)}, {"$set": {"Workout" : data}}
+        )
+
 async def delete_workout_data(id: str):
     data = await Workout_collection.find_one({"_id": ObjectId(id)})
     if data:
-        # await Delete_Old_Image(id)
+        
+        async for user in User_collection.find():
+                user_id=  str(user["_id"])
+                user_workout= user["Workout"]
+        
+                if id in user_workout:
+                     user_workout.remove(id)
+                     await add_data(user_id,user_workout)
+        
         await Workout_collection.delete_one({"_id": ObjectId(id)})
         return "Data Successfully deleted"
     return "Data Not Found"
