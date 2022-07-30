@@ -83,10 +83,7 @@ async def update_user_data(id: str, req: update_users):
     req = jsonable_encoder(req)
     data = {}
     for i, j in req.items():
-        if type(j) == list:
-            if len(j) > 0:
-                data[i] = j
-        elif (type(j) == str or type(j) == int) and (len(str(j)) > 0):
+        if (type(j) == str or type(j) == int) and (len(str(j)) > 0):
             data[i] = j
 
     if 'IMAGE' in data:
