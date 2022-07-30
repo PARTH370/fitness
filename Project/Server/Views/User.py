@@ -215,8 +215,9 @@ async def Get_user_workout(id: str):
         output = []
         for each_workout in workout_list:
             workout = await Workout_collection.find_one({"_id": ObjectId(each_workout)})
-            workout = workout_helper(workout)
-            output.append(workout)
+            if workout:
+                workout = workout_helper(workout)
+                output.append(workout)
         return {"code": 200, "Data": output}
     else:
         return {"code": 404, "Data": "User not found"}
