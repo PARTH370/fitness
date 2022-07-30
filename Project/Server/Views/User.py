@@ -7,11 +7,30 @@ from Project.Server.Controller.Workouts import update_workout, workout_helper
 from Project.Server.Models.Workouts import Workout
 from Project.Server.Utils.Image_Handler import Image_Converter
 from Project.Server.Utils.Auth_Bearer import *
-from Project.Server.Database import Exercise_collection, User_collection, Workout_collection
+from Project.Server.Database import (
+    Exercise_collection,
+    User_collection,
+    Workout_collection,
+)
 from Project.Server.Controller.User import User_helper, update_user
-from Project.Server.Controller.User import Add_User_Measures,Update_Measurments,retrieve_user_measurment,Add_User_Details,Delete_Old_Image,Check_Email_Mobile ,retrieve_all_Users, delete_user_data, retrieve_user_by_id
+from Project.Server.Controller.User import (
+    Add_User_Measures,
+    Update_Measurments,
+    retrieve_user_measurment,
+    Add_User_Details,
+    Delete_Old_Image,
+    Check_Email_Mobile,
+    retrieve_all_Users,
+    delete_user_data,
+    retrieve_user_by_id,
+)
 from fastapi.encoders import jsonable_encoder
-from Project.Server.Models.User import User_Details,Add_Measurment, Login, ChangePassword
+from Project.Server.Models.User import (
+    User_Details,
+    Add_Measurment,
+    Login,
+    ChangePassword,
+)
 
 router = APIRouter()
 
@@ -19,15 +38,15 @@ router = APIRouter()
 @router.post("/User_Registration", response_description="User Registration")
 async def User_Registration(data: User_Details = Body(...)):
     data = jsonable_encoder(data)
-    Email= await Check_Email_Mobile(data)
+    Email = await Check_Email_Mobile(data)
     if Email == False:
-        return {"code": 400, "Msg": 'Email or Mobile Already Registered'}
-    if len(data['IMAGE'])>0:
-        img_path=await Image_Converter(data['IMAGE'])
+        return {"code": 400, "Msg": "Email or Mobile Already Registered"}
+    if len(data["IMAGE"]) > 0:
+        img_path = await Image_Converter(data["IMAGE"])
     else:
-        img_path=""
-    data['IMAGE'] = str(img_path)
-    data['PassWord'] = get_password_hash(data['PassWord'])
+        img_path = ""
+    data["IMAGE"] = str(img_path)
+    data["PassWord"] = get_password_hash(data["PassWord"])
     Output = await Add_User_Details(data)
     return {"code": 200, "User_id": Output["_id"]}
 
@@ -40,7 +59,9 @@ async def get_all_Users():
     return {"Data": workout, "Msg": "Empty list return"}
 
 
-@router.get("/Get_User_Data/{id}", response_description="Get user information data by id")
+@router.get(
+    "/Get_User_Data/{id}", response_description="Get user information data by id"
+)
 async def get_user_data(id):
     data = await retrieve_user_by_id(id)
     if data:
@@ -57,36 +78,41 @@ async def delete_User(id: str):
 
 
 @router.put("/Update/{id}")
-async def update_user_data(id: str,  req : User_Details):
+async def update_user_data(id: str, req: User_Details):
     req = jsonable_encoder(req)
-    data={}
-    for j in req.keys():
-       if len(str(req[j])) > 0:
-        data[j] = req[j]
-    try:
-        if len(data["IMAGE"])!=0:
+    data = {}
+    for i, j in req.items():
+        if type(j) == list:
+            if len(j) > 0:
+                data[i] = j
+        elif (type(j) == str or type(j) == int) and (len(str(j)) > 0):
+            data[i] = j
+
+    if 'IMAGE' in data:
+        if len(data["IMAGE"]) != 0:
             # Del_img= await Delete_Old_Image(id)
-            Image_Path=await Image_Converter(data["IMAGE"])
-            data["IMAGE"]=Image_Path
-    except:
-        pass
-    updated_user = await update_user(id,data)
+            imagepath = await Image_Converter(data["IMAGE"])
+            data["IMAGE"] = imagepath
+
+    updated_user = await update_user(id, data)
     if updated_user:
         return {"code": 200, "Data": "Data updated Successfully"}
 
-    return {
-        "code": 404, "Data": "Something Went Wrong"
-    }
-    
+    return {"code": 404, "Data": "Something Went Wrong"}
+
 
 @router.post("/Status/{id}", response_description="Change Status")
 async def Change_Status(id: str):
     data = await User_collection.find_one({"_id": ObjectId(id)})
     if data:
-        if data["Status"]=="Active":
-            await User_collection.update_one({"_id": ObjectId(id)}, {"$set": {"Status": "Inactive"}})
+        if data["Status"] == "Active":
+            await User_collection.update_one(
+                {"_id": ObjectId(id)}, {"$set": {"Status": "Inactive"}}
+            )
         else:
-            await User_collection.update_one({"_id": ObjectId(id)}, {"$set": {"Status": "Active"}})
+            await User_collection.update_one(
+                {"_id": ObjectId(id)}, {"$set": {"Status": "Active"}}
+            )
         return {"code": 200, "Msg": "Status Changed Successfully"}
     return {"code": 404, "Msg": "Id may not exist"}
 
@@ -95,22 +121,37 @@ async def Change_Status(id: str):
 async def login(User: Login = Body(...)):
     user = jsonable_encoder(User)
     if user["Social"] == True:
-        users = await User_collection.find_one({"Mobile": (user['Email'])})
+        users = await User_collection.find_one({"Mobile": (user["Email"])})
     try:
         int(user["Email"])
-        users = await User_collection.find_one({"Mobile": int(user['Email'])})
+        users = await User_collection.find_one({"Mobile": int(user["Email"])})
     except:
-        users = await User_collection.find_one({"Email": user['Email']})
+        users = await User_collection.find_one({"Email": user["Email"]})
         # mobiles = await user_collection.find_one({"mobile": user['email']})
     if users and user["Social"] == True:
         access_token = create_access_token(
-            data={"sub": user["Email"]}, expires_delta=timedelta(minutes=ACCESS_TOKEN_EXPIRE_MINUTES))
-        return {"access_token": access_token, "token_type": "bearer", "_id": str(users["_id"]), 'name': users['Name']}
+            data={"sub": user["Email"]},
+            expires_delta=timedelta(minutes=ACCESS_TOKEN_EXPIRE_MINUTES),
+        )
+        return {
+            "access_token": access_token,
+            "token_type": "bearer",
+            "_id": str(users["_id"]),
+            "name": users["Name"],
+        }
     if users:
-        if (verify_password(user['PassWords'], users['PassWord'])):
+        if verify_password(user["PassWords"], users["PassWord"]):
             access_token = create_access_token(
-                data={"sub": users["Email"]}, expires_delta=timedelta(minutes=ACCESS_TOKEN_EXPIRE_MINUTES))
-            return {"code": 200,"access_token": access_token, "token_type": "bearer", "_id": str(users["_id"]), 'name': users['Name']}
+                data={"sub": users["Email"]},
+                expires_delta=timedelta(minutes=ACCESS_TOKEN_EXPIRE_MINUTES),
+            )
+            return {
+                "code": 200,
+                "access_token": access_token,
+                "token_type": "bearer",
+                "_id": str(users["_id"]),
+                "name": users["Name"],
+            }
         else:
             return {"code": 404, "message": "Password not match"}
     return {"code": 404, "message": "User not found or invalid Details"}
@@ -121,21 +162,23 @@ async def change_password(id: str, User: ChangePassword = Body(...)):
     User = jsonable_encoder(User)
     data = await User_collection.find_one({"_id": ObjectId(id)})
     print(User["old_passWords"])
-    if verify_password(User['old_passWords'],data['PassWord']):
-        data['PassWord'] = get_password_hash(User['new_password'])
-        status = await User_collection.find_one_and_update({"_id": ObjectId(id)}, 
-                                                       {"$set": data})
-        return {"code": 200, "message":"Password changed successfully"}
+    if verify_password(User["old_passWords"], data["PassWord"]):
+        data["PassWord"] = get_password_hash(User["new_password"])
+        status = await User_collection.find_one_and_update(
+            {"_id": ObjectId(id)}, {"$set": data}
+        )
+        return {"code": 200, "message": "Password changed successfully"}
     else:
         return {"code": 404, "message": "Please enter Valid Old Password"}
 
 
 @router.post("/Add_Measurment/{id}", response_description="Add Measurment")
 async def add_measurment(id: str, Measurment: Add_Measurment = Body(...)):
-    data= jsonable_encoder(Measurment)
-    data["User_id"]=str(id)
+    data = jsonable_encoder(Measurment)
+    data["User_id"] = str(id)
     status = await Add_User_Measures(data)
     return {"code": 200, "message": "Measurment added successfully"}
+
 
 @router.get("/Get_Measurment/{id}", response_description="Get Measurment")
 async def Get_Measurment(id: str):
@@ -144,10 +187,11 @@ async def Get_Measurment(id: str):
         return {"code": 200, "Data": data}
     return {"Msg": "Id may not exist"}
 
+
 @router.put("/{id}")
 async def update_workout_data(id: str, req: Workout):
     req = jsonable_encoder(req)
-    data = {q: s for q,s in req.items() if len(str(s))!=0}
+    data = {q: s for q, s in req.items() if len(str(s)) != 0}
 
     if len(data["IMAGE"]) != 0:
         # Del_img= await Delete_Old_Image(id)
@@ -166,7 +210,7 @@ async def Get_user_workout(id: str):
     user = await User_collection.find_one({"_id": ObjectId(id)})
     user = User_helper(user)
     if user:
-        workout_list = user['Workout']
+        workout_list = user["Workout"]
         output = []
         for each_workout in workout_list:
             workout = await Workout_collection.find_one({"_id": ObjectId(each_workout)})
@@ -176,41 +220,47 @@ async def Get_user_workout(id: str):
     else:
         return {"code": 404, "Data": "User not found"}
 
+
 @router.get("/Calculate_BMI/{id}", response_description="Calculate BMI")
 async def Get_Calculate_BMI(id: str):
-    data = await retrieve_user_by_id(id)  
-    meter =(data["Height"]/100)
-    BMI =( (data['Weight'])/(meter*meter) )
-    return {"code": 200,"Msg":BMI}
+    data = await retrieve_user_by_id(id)
+    meter = data["Height"] / 100
+    BMI = (data["Weight"]) / (meter * meter)
+    return {"code": 200, "Msg": BMI}
 
 
-@router.get("/User_Exercise/{id}" , response_description="Get user Exercise Details")
+@router.get("/User_Exercise/{id}", response_description="Get user Exercise Details")
 async def get_user_exercise_details(id):
     try:
         user = await User_collection.find_one({"_id": ObjectId(id)})
         user = User_helper(user)
         if user is not None:
-            workout_list = user['Workout']
+            workout_list = user["Workout"]
             output = []
             for each_workout in workout_list:
                 if len(each_workout) > 0:
-                    workout = await Workout_collection.find_one({"_id": ObjectId(each_workout)})
+                    workout = await Workout_collection.find_one(
+                        {"_id": ObjectId(each_workout)}
+                    )
                     workout = workout_helper(workout)
                     if workout is not None:
-                        for Day in range(1,8):
-                            DAY="DAY_"+str(Day)
-                            if len(workout[DAY])>0:
+                        for Day in range(1, 8):
+                            DAY = "DAY_" + str(Day)
+                            if len(workout[DAY]) > 0:
                                 for excrcise_id in workout[DAY]:
-                                    if len(excrcise_id)>1:
-                                        Exercise = await Exercise_collection.find_one({"_id": ObjectId(excrcise_id)})
+                                    if len(excrcise_id) > 1:
+                                        Exercise = await Exercise_collection.find_one(
+                                            {"_id": ObjectId(excrcise_id)}
+                                        )
                                         output.append(Exercise_helper(Exercise))
-            if len(output)==0:
-                return {"code": 200,'msg':'Not any workout assigned contact administration'}
-            return {"code": 200,"msg": output}
+            if len(output) == 0:
+                return {
+                    "code": 200,
+                    "msg": "Not any workout assigned contact administration",
+                }
+            return {"code": 200, "msg": output}
         else:
-            return {"code": 400,"msg": "user not found"}
+            return {"code": 400, "msg": "user not found"}
 
-
-        
     except Exception as e:
-        return {"code": 404,"Data": "Something Went Wrong", "msg": e.args}
+        return {"code": 404, "Data": "Something Went Wrong", "msg": e.args}
