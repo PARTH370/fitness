@@ -2,7 +2,7 @@ import base64
 import uuid
 from fastapi import APIRouter, Body
 from Project.Server.Utils.Image_Handler import Image_Converter
-from Project.Server.Controller.Equipments import Add_Equipment,Delete_Old_Image,Check_Eqipment, delete_Equipment_data, retrieve_all_Equipments, retrieve_Equipment_by_id, update_Equipment
+from Project.Server.Controller.Equipments import Add_Equipment,Delete_Old_Image,Check_Eqipment, delete_equipment_data, retrieve_all_Equipments, retrieve_Equipment_by_id, update_Equipment
 from Project.Server.Models.Equipments import Equipments
 from fastapi.encoders import jsonable_encoder
 
@@ -42,7 +42,7 @@ async def get_Equipment_data(id):
 
 @router.delete("/Delete/{id}", response_description="Delete Equipment data by id")
 async def delete_Equipment(id: str):
-    data = await delete_Equipment_data(id)
+    data = await delete_equipment_data(id)
     if data:
         return {"code": 200, "Msg": data}
     return {"Msg": "Id may not exist"}
