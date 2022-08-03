@@ -82,9 +82,7 @@ async def delete_User(id: str):
 async def update_user_data(id: str, req: update_users):
     req = jsonable_encoder(req)
     data = {}
-    for i, j in req.items():
-        if (type(j) == str or type(j) == int) and (len(str(j)) > 0):
-            data[i] = j
+    data={q: s for q,s in req.items() if len(str(s))!=0}
 
     if 'IMAGE' in data:
         if len(data["IMAGE"]) != 0:
