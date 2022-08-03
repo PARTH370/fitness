@@ -1,1 +1,3 @@
-web: gunicorn -w 3 -k uvicorn.workers.UvicornWorker Project.Server.app:app
+
+
+web : gunicorn app:application --preload -b 0.0.0.0:5000 
