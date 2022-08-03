@@ -12,8 +12,8 @@ class Workout(BaseModel):
     DESCRIPTION: str
     GOAL: str
     LEVEL: str
-    BODYPART: str
-    EQUIPMENT: str
+    BODYPART: List[str]
+    EQUIPMENT: List[str]
     DURATION: str
     PRICE: str
     DAY_1: List[str]

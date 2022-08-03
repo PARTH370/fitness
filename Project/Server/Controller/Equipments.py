@@ -47,10 +47,34 @@ async def retrieve_Equipment_by_id(Equipment_id: str) -> dict:
         return Equipments_helper(Equipments)
 
 
-async def delete_Equipment_data(id: str):
+
+
+async def add_data(id:str, data):
+    await Exercise_collection.update_one(
+            {"_id": ObjectId(id)}, {"$set": {"EQUIPMENT" : data}}
+        )
+
+async def update_workout(id: str, data: dict):
+    await Workout_collection.update_one({"_id": ObjectId(id)}, {"EQUIPMENT" : data})
+
+
+async def delete_equipment_data(id: str):
     data = await Equipments_collection.find_one({"_id": ObjectId(id)})
     if data:
         # Img_delete = await Delete_Old_Image(id)
+        for exercise in Exercise_collection.find():
+            exercise_id= str(exercise['_id'])
+            exercise_data= exercise['EQUIPMENT']
+            if id in exercise_data:
+                exercise_data.remove(id)
+                await add_data(exercise_id, exercise_data)
+        for workout in Workout_collection.find():
+            workout_id= str(workout['_id'])
+            workout_data= workout['EQUIPMENT']
+            if id in workout_data:
+                workout_data.remove(id)
+                await update_workout(workout_id, workout_data)
+
         await Equipments_collection.delete_one({"_id": ObjectId(id)})
         return "Data Successfully deleted"
     return "Data Not Found"

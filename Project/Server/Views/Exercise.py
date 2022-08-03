@@ -1,5 +1,3 @@
-import base64
-import uuid
 from fastapi import APIRouter, Body
 from Project.Server.Utils.Image_Handler import Image_Converter
 from Project.Server.Controller.Exercise import Add_Exercise,Delete_Old_Image,Check_Exercises, delete_exercise_data, retrieve_all_Exercises, retrieve_exercise_by_id, update_exercise
@@ -53,14 +51,11 @@ async def update_exercise_data(id: str, req: Exercise = Body(...)):
     req = jsonable_encoder(req)
     data = {}
     for i, j in req.items():
-        if type(j) == list:
-            if len(j) > 0:
-                data[i] = j
-        elif (type(j) == str or type(j) == int) and (len(str(j)) > 0):
+        
+        if (type(j) == str or type(j) == int) and (len(str(j)) > 0):
             data[i] = j
 
-    if 'IMAGE' in data:
-        if len(data["IMAGE"]) != 0:
+    if ('IMAGE' in data ) and (len(data["IMAGE"]) != 0):
             # Del_img= await Delete_Old_Image(id)
             imagepath = await Image_Converter(data["IMAGE"])
             data["IMAGE"] = imagepath
