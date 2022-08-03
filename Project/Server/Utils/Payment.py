@@ -69,9 +69,9 @@ async def pay(id: str, pays: Payment_id = Body(...)):
     pays = jsonable_encoder(pays)
     User = await Razorpay_collection.find_one({"Uid": id})
     if User:
-        if User['STATUS'] == "PENDING":
-            return {"PAYMENT_ID": User['PAYMENT_ID'], "STATUS": User['STATUS'], "PRICE": User['PRICE'], "SOURCE": User['SOURCE'], 'User_id': User['Uid'], 'key_id': razorpay_key_id}
-        else:
+        # if User['STATUS'] == "PENDING":
+        #     return {"PAYMENT_ID": User['PAYMENT_ID'], "STATUS": User['STATUS'], "PRICE": User['PRICE'], "SOURCE": User['SOURCE'], 'User_id': User['Uid'], 'key_id': razorpay_key_id}
+        if User['STATUS'] != "PENDING":
             return {"Msg": "Payment already done"}
     order = client.order.create(data=pays)
     await Razorpay_collection.insert_one(Payment_helper(order, pays, id, "RAZORPAY"))
