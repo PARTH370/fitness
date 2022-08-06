@@ -55,7 +55,7 @@ async def add_data(id:str, data:list):
         )
 
 async def update_workout(id: str, data: list):
-    await Workout_collection.update_one({"_id": ObjectId(id)}, {"EQUIPMENT" : data})
+    await Workout_collection.update_one({"_id": ObjectId(id)}, {"$set": {"EQUIPMENT" : data}})
 
 
 async def delete_equipment_data(id: str):
