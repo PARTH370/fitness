@@ -49,12 +49,12 @@ async def retrieve_Equipment_by_id(Equipment_id: str) -> dict:
 
 
 
-async def add_data(id:str, data):
+async def add_data(id:str, data:list):
     await Exercise_collection.update_one(
             {"_id": ObjectId(id)}, {"$set": {"EQUIPMENT" : data}}
         )
 
-async def update_workout(id: str, data: dict):
+async def update_workout(id: str, data: list):
     await Workout_collection.update_one({"_id": ObjectId(id)}, {"EQUIPMENT" : data})
 
 
