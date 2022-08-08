@@ -26,3 +26,13 @@ async def Image_Converter(Hax_Value):
         return data_list[-1][:len(data_list[-1])-2]
     except:
         return ""
+
+
+async def delete_image(path):
+    url='https://evenmore.co.in/API/DeleteImage'
+    correct_payload={
+    "imageName":path
+    }
+    json_object = json.dumps(correct_payload, indent = 4) 
+    requests.post(url, data=json_object,headers={'Content-Type':'application/json'})
+  

@@ -1,5 +1,7 @@
 from Project.Server.Database import *
 import os
+
+from Project.Server.Utils.Image_Handler import delete_image
 IMAGEDIR=os.getcwd()
 
 def Exercise_helper(data) -> dict:
@@ -73,7 +75,9 @@ async def delete_exercise_data(id: str):
         async for user in User_collection.find():
             user_id=  str(user["_id"])
             user_exercise =user['Favourites_Exercises']
-
+            image_path=data['IMAGE']
+            image_path=image_path.split('/')[-1]
+            await delete_image(image_path)
             if id in user_exercise:
                     user_exercise.remove(id)
                     await add_data(user_id,user_exercise)
@@ -114,6 +118,12 @@ async def update_exercise(id: str, data: dict):
         return False
     exercise = await Exercise_collection.find_one({"_id": ObjectId(id)})
     if exercise:
+        
+        if  ('IMAGE' in data ):
+            image_path=exercise['IMAGE']
+            image_path=image_path.split('/')[-1]
+            await delete_image(image_path)
+
         updated_exercise = await Exercise_collection.update_one(
             {"_id": ObjectId(id)}, {"$set": data}
         )
