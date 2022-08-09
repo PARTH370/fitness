@@ -80,12 +80,11 @@ async def delete_bodypart_data(id: str):
 
 
 
-async def update_bodypart(id: str, data: dict,flags:int):
+async def update_bodypart(id: str, data: dict):
     if len(data) < 1:
         return False
     bodypart = await Bodyparts_collection.find_one({"_id": ObjectId(id)})
-    if flags == 0:
-        data["IMAGE"]=bodypart['IMAGE']
+
     if bodypart:
         updated_bodypart = await Bodyparts_collection.update_one(
             {"_id": ObjectId(id)}, {"$set": data}

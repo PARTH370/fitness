@@ -80,12 +80,11 @@ async def delete_equipment_data(id: str):
     return "Data Not Found"
 
 
-async def update_Equipment(id: str, data: dict,flags:int):
+async def update_Equipment(id: str, data: dict):
     if len(data) < 1:
         return False
     Equipment = await Equipments_collection.find_one({"_id": ObjectId(id)})
-    if flags == 0:
-        data["IMAGE"]=Equipment['IMAGE']
+
     if Equipment:
         updated_Equipment = await Equipments_collection.update_one(
             {"_id": ObjectId(id)}, {"$set": data}

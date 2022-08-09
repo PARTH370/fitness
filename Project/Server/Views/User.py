@@ -82,9 +82,12 @@ async def delete_User(id: str):
 async def update_user_data(id: str, req: update_users):
     req = jsonable_encoder(req)
     data = {}
-    data={q: s for q,s in req.items() if len(str(s))!=0}
+    for i, j in req.items():
 
-    if 'IMAGE' in data:
+        if (type(j) == str or type(j) == int) and (len(str(j)) > 0):
+            data[i] = j
+
+    if "IMAGE" in data:
         if len(data["IMAGE"]) != 0:
             # Del_img= await Delete_Old_Image(id)
             imagepath = await Image_Converter(data["IMAGE"])

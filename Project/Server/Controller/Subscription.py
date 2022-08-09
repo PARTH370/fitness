@@ -62,12 +62,11 @@ async def delete_Subscriptions_data(id: str):
     return "Data Not Found"
 
 
-async def update_Subscriptions(id: str, data: dict,flags:int):
+async def update_Subscriptions(id: str, data: dict):
     if len(data) < 1:
         return False
     Subscriptions = await Subscription_collection.find_one({"_id": ObjectId(id)})
-    if flags == 0:
-        data["IMAGE"]=Subscriptions['IMAGE']
+
     if Subscriptions:
         updated_Subscriptions = await Subscription_collection.update_one(
             {"_id": ObjectId(id)}, {"$set": data}

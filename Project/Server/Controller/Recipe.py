@@ -101,12 +101,10 @@ async def delete_Recipes_data(id: str):
     return "Data Not Found"
 
 
-async def update_Recipes(id: str, data: dict,flags:int):
+async def update_Recipes(id: str, data: dict):
     if len(data) < 1:
         return False
     Recipes = await Recipes_collection.find_one({"_id": ObjectId(id)})
-    if flags == 0:
-        data["IMAGE"]=Recipes['IMAGE']
     if Recipes:
         updated_Recipes = await Recipes_collection.update_one(
             {"_id": ObjectId(id)}, {"$set": data}

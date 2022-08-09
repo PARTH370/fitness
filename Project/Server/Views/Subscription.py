@@ -45,19 +45,25 @@ async def delete_Subscriptions(id: str):
         return {"code": 200, "Msg": data}
     return {"Msg": "Id may not exist"}
 
-@router.put("/Update/{id}")
+@router.put("/{id}")
 async def update_Subscriptions_data(id: str, req: Subscriptions = Body(...)):
     req = jsonable_encoder(req)
-    flags=0
-    if len(req["IMAGE"])!=0:
-        # Del_img= await Delete_Old_Image(id)
-        Image_Path=await Image_Converter(req["IMAGE"])
-        req["IMAGE"]=Image_Path
-        flags=1
-    updated_Subscriptions = await update_Subscriptions(id, req,flags)
-    if updated_Subscriptions:
+    data = {}
+    for i, j in req.items():
+
+        if (type(j) == str or type(j) == int) and (len(str(j)) > 0):
+            data[i] = j
+
+    if "IMAGE" in data:
+        if len(data["IMAGE"]) != 0:
+            # Del_img= await Delete_Old_Image(id)
+            imagepath = await Image_Converter(data["IMAGE"])
+            data["IMAGE"] = imagepath
+    updated_subscriptions = await update_Subscriptions(id, data)
+    if updated_subscriptions:
         return {"code": 200, "Data": "Data updated Successfully"}
     return {"code": 200, "Msg": "Id may not exist"}
+
 
 @router.post("/Status/{id}",response_description="Change Subscriptions status")
 async def change_Subscriptions_status(id:str):

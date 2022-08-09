@@ -51,12 +51,11 @@ async def delete_Category_data(id: str):
         return "Data Successfully deleted"
     return "Data Not Found"
 
-async def update_Category(id: str, data: dict,flags:int):
+async def update_Category(id: str, data: dict):
     if len(data) < 1:
         return False
     Category = await Categories_collection.find_one({"_id": ObjectId(id)})
-    if flags == 0:
-        data["IMAGE"]=Category['IMAGE']
+
     if Category:
         updated_Category = await Categories_collection.update_one(
             {"_id": ObjectId(id)}, {"$set": data}

@@ -56,12 +56,10 @@ async def delete_Level_data(id: str):
     return "Data Not Found"
 
 
-async def update_Level(id: str, data: dict,flags:int):
+async def update_Level(id: str, data: dict):
     if len(data) < 1:
         return False
     Level = await Levels_collection.find_one({"_id": ObjectId(id)})
-    if flags == 0:
-        data["IMAGE"]=Level['IMAGE']
     if Level:
         updated_Level = await Levels_collection.update_one(
             {"_id": ObjectId(id)}, {"$set": data}

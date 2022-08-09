@@ -70,12 +70,10 @@ async def delete_Post_data(id: str):
     return "Data Not Found"
 
 
-async def update_Post(id: str, data: dict,flags:int):
+async def update_Post(id: str, data: dict):
     if len(data) < 1:
         return False
     Post = await Post_collection.find_one({"_id": ObjectId(id)})
-    if flags == 0:
-        data["IMAGE"]=Post['IMAGE']
     if Post:
         updated_Post = await Post_collection.update_one(
             {"_id": ObjectId(id)}, {"$set": data}

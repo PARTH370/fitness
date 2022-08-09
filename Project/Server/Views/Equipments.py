@@ -51,13 +51,18 @@ async def delete_Equipment(id: str):
 @router.put("/Update/{id}")
 async def update_Equipment_data(id: str, req: Equipments = Body(...)):
     req = jsonable_encoder(req)
-    flags=0
-    if len(req["IMAGE"])!=0:
-        # Del_img= await Delete_Old_Image(id)
-        Image_Path=await Image_Converter(req["IMAGE"])
-        req["IMAGE"]=Image_Path
-        flags=1
-    updated_Equipment = await update_Equipment(id, req,flags)
+    data = {}
+    for i, j in req.items():
+
+        if (type(j) == str or type(j) == int) and (len(str(j)) > 0):
+            data[i] = j
+
+    if "IMAGE" in data:
+        if len(data["IMAGE"]) != 0:
+            # Del_img= await Delete_Old_Image(id)
+            imagepath = await Image_Converter(data["IMAGE"])
+            data["IMAGE"] = imagepath
+    updated_Equipment = await update_Equipment(id,data)
     if updated_Equipment:
         return {"code": 200, "Data": "Data updated Successfully"}
 

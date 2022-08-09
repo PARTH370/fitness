@@ -57,12 +57,11 @@ async def delete_Goal_data(id: str):
     return "Data Not Found"
 
 
-async def update_Goal(id: str, data: dict,flags:int):
+async def update_Goal(id: str, data: dict):
     if len(data) < 1:
         return False
     Goal = await Goals_collection.find_one({"_id": ObjectId(id)})
-    if flags == 0:
-        data["IMAGE"]=Goal['IMAGE']
+
     if Goal:
         updated_Goal = await Goals_collection.update_one(
             {"_id": ObjectId(id)}, {"$set": data}
