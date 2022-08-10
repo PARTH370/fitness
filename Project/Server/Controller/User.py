@@ -116,7 +116,20 @@ async def delete_user_data(id: str):
 
 async def update_user(id: str, data: dict):
     if len(data) < 1:
-   
+        return False
+    user = await User_collection.find_one({"_id": ObjectId(id)})
+    # try:
+    #     if flags == 1:
+    #         data["IMAGE"]=user['IMAGE']
+    # except:
+    #     pass
+    if user:
+        updated_user = await User_collection.update_one(
+            {"_id": ObjectId(id)}, {"$set": data}
+        )
+        if updated_user:
+            return True
+        return False
 
 async def Update_Measurments(id: str, data: dict):
     if len(data) < 1:
