@@ -187,15 +187,20 @@ async def Get_Measurment(id: str):
     return {"Msg": "Id may not exist"}
 
 
-@router.put("/{id}")
-async def update_workout_data(id: str, req: Workout):
+@router.put("/Update/{id}")
+async def update_user_data(id: str, req: update_users):
     req = jsonable_encoder(req)
-    data = {q: s for q, s in req.items() if len(str(s)) != 0}
+    data = {}
+    for i, j in req.items():
 
-    if len(data["IMAGE"]) != 0:
-        # Del_img= await Delete_Old_Image(id)
-        imagepath = await Image_Converter(data["IMAGE"])
-        data["IMAGE"] = imagepath
+        if (type(j) == str or type(j) == int) and (len(str(j)) > 0):
+            data[i] = j
+
+    if "IMAGE" in data:
+        if len(data["IMAGE"]) != 0:
+            # Del_img= await Delete_Old_Image(id)
+            imagepath = await Image_Converter(data["IMAGE"])
+            data["IMAGE"] = imagepath
 
     updated_user = await update_user(id, data)
     if updated_user:
