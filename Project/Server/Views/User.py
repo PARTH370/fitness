@@ -195,6 +195,8 @@ async def update_user_data(id: str, req: update_users):
 
         if (type(j) == str or type(j) == int) and (len(str(j)) > 0):
             data[i] = j
+        if (type(j) == list):
+            data[i] = j
 
     if "IMAGE" in data:
         if len(data["IMAGE"]) != 0:
