@@ -197,7 +197,6 @@ async def update_user_data(id: str, req: update_users):
             data[i] = j
         if (type(j) == list):
             data[i] = j
-    print(data)
     if "IMAGE" in data:
         if len(data["IMAGE"]) != 0:
             # Del_img= await Delete_Old_Image(id)
