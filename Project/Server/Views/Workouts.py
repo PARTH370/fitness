@@ -51,17 +51,14 @@ async def delete_workout(id: str):
 @router.put("/{id}")
 async def update_workout_data(id: str, req: Workout):
     req = jsonable_encoder(req)
-    data = {}
-    for i, j in req.items():
-
-        if (type(j) == str or type(j) == int) and (len(str(j)) > 0):
-            data[i] = j
-
-    if "IMAGE" in data:
+    data = {q: s for q,s in req.items() if len(str(s))!=0}
+    try:
         if len(data["IMAGE"]) != 0:
             # Del_img= await Delete_Old_Image(id)
-            imagepath = await Image_Converter(data["IMAGE"])
-            data["IMAGE"] = imagepath
+            img_path = await Image_Converter(data["IMAGE"])
+            data["IMAGE"] = img_path
+    except:
+        pass
     updated_workout = await update_workout(id, data)
     if updated_workout:
         return {"code": 200, "Data": "Data updated Successfully"}

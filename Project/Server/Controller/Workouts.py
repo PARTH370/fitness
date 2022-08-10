@@ -93,6 +93,8 @@ async def update_workout(id: str, data: dict):
     if len(data) < 1:
         return False
     workout = await Workout_collection.find_one({"_id": ObjectId(id)})
+    # if flags == 0:
+    #     data["IMAGE"]=workout['IMAGE']
     if workout:
         updated_workout = await Workout_collection.update_one(
             {"_id": ObjectId(id)}, {"$set": data}
