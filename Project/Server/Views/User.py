@@ -229,6 +229,23 @@ async def Get_Calculate_BMI(id: str):
     return {"code": 200, "Msg": BMI}
 
 
+@router.post("/FAT_CALCULATOR/{id}", response_description="FAT_CALCULATOR")
+async def FAT_CALCULATOR(id:str):
+    data = await retrieve_user_by_id(id)
+    if data and  (data["Height"] != 0 and data["Weight"] != 0):
+            height = data["Height"] / 100
+            BMI = data["Weight"] / (height * height)
+            age=data["Age"]
+            sex=data["Gender"]
+            if sex=="Male":
+                body_fat= (1.20 * BMI) + (0.23 * age) - 5.4 
+                return {"code": 200, "BMI": body_fat}
+            else:
+                body_fat= (1.20 * BMI) + (0.23 * age) - 16.2
+                return {"code": 200, "BMI": body_fat}
+
+    return {"code":404,"Data": "Something Went Wrong"}
+
 @router.get("/User_Exercise/{id}", response_description="Get user Exercise Details")
 async def get_user_exercise_details(id):
     try:
