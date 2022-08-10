@@ -48,7 +48,7 @@ async def delete_workout(id: str):
     return {"Msg": "Id may not exist"}
 
 
-@router.put("/{id}")
+@router.put("/Update/{id}")
 async def update_workout_data(id: str, req: Workout):
     req = jsonable_encoder(req)
     data = {q: s for q,s in req.items() if len(str(s))!=0}
