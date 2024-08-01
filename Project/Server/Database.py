@@ -1,8 +1,10 @@
 import motor.motor_asyncio
 from bson.objectid import ObjectId
+from dotenv import load_dotenv
 
+load_dotenv()
 
-MONGO_DETAILS = "mongodb+srv://parth:Parth370@cluster0.df8hf.mongodb.net/parth?retryWrites=true&w=majority"
+MONGO_DETAILS = os.getenv("MONGODB_URL")
 client = motor.motor_asyncio.AsyncIOMotorClient(MONGO_DETAILS)
 database = client.My_Fiti
 
