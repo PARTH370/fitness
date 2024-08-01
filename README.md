@@ -78,7 +78,7 @@ The Finesse application is a comprehensive fitness and wellness platform with va
 
 1. Clone the repository: 
 ```
-git clone https://github.com/PARTH370/fitness.git
+git clone https://github.com/PARTH370/fitness-fastapi-backend.git
 ```
 
 2. Install dependencies:
